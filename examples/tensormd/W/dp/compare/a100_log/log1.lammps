@@ -1,0 +1,156 @@
+LAMMPS (29 Aug 2024)
+  using 40 OpenMP thread(s) per MPI task
+Loaded 1 plugins from /home/oyyc/deepmd-kit/lib/deepmd_lmp
+variable                    T equal 300
+variable                    R equal 984523
+
+units		                metal
+dimension                   3
+boundary	                p p p
+atom_style	                atomic
+
+lattice                     bcc 3.189
+Lattice spacing in x,y,z = 3.189 3.189 3.189
+region                      box block 0 24 0 24 0 20
+create_box                  1 box
+Created orthogonal box = (0 0 0) to (76.536 76.536 63.78)
+  1 by 1 by 1 MPI processor grid
+create_atoms                1 box
+Created 23040 atoms
+  using lattice units in orthogonal box = (0 0 0) to (76.536 76.536 63.78)
+  create_atoms CPU = 0.007 seconds
+
+pair_style	                deepmd ../dpse2-compress.pb
+Summary of lammps deepmd module ...
+  >>> Info of deepmd-kit:
+  installed to:       /home/oyyc/deepmd-kit
+  source:             
+  source branch:      HEAD
+  source commit:      b1be266
+  source commit at:   2024-11-23 01:37:55 -0800
+  support model ver.: 1.1 
+  build variant:      cuda
+  build with tf inc:  /home/oyyc/deepmd-kit/lib/python3.12/site-packages/tensorflow/include;/home/oyyc/deepmd-kit/include
+  build with tf lib:  /home/oyyc/deepmd-kit/lib/python3.12/site-packages/tensorflow/libtensorflow_cc.so.2
+  build with pt lib:  torch;torch_library;/home/oyyc/deepmd-kit/lib/python3.12/site-packages/torch/lib/libc10.so;/home/conda/feedstock_root/build_artifacts/deepmd-kit_1732355244818/_build_env/targets/x86_64-linux/lib/stubs/libcuda.so;/home/oyyc/deepmd-kit/lib/libnvrtc.so;/home/oyyc/deepmd-kit/lib/libnvToolsExt.so;/home/oyyc/deepmd-kit/lib/libcudart.so;/home/oyyc/deepmd-kit/lib/python3.12/site-packages/torch/lib/libc10_cuda.so
+  set tf intra_op_parallelism_threads: 1
+  set tf inter_op_parallelism_threads: 40
+  >>> Info of lammps module:
+  use deepmd-kit at:  /home/oyyc/deepmd-kitpair_coeff	                * *
+
+#pair_style	                tensormd
+#pair_coeff	                * * ../../W_m3_k64_n64_v1_20241217.npz W interp 0.001
+
+mass                        1 183.8
+
+neighbor                    1.0 bin
+neigh_modify                every 1 delay 0 check yes
+
+thermo                      10
+thermo_style                custom step cpu temp ke pe etotal press vol pxx pyy pzz
+
+velocity                    all create $T $R dist gaussian
+velocity                    all create 300 $R dist gaussian
+velocity                    all create 300 984523 dist gaussian
+fix                         1 all nvt temp $T $T 0.1
+fix                         1 all nvt temp 300 $T 0.1
+fix                         1 all nvt temp 300 300 0.1
+
+run                         100
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- USER-DEEPMD package:
+
+@article{Wang_ComputPhysCommun_2018_v228_p178,
+  author = {Wang, Han and Zhang, Linfeng and Han, Jiequn and E, Weinan},
+  doi = {10.1016/j.cpc.2018.03.016},
+  url = {https://doi.org/10.1016/j.cpc.2018.03.016},
+  year = 2018,
+  month = {jul},
+  publisher = {Elsevier {BV}},
+  volume = 228,
+  journal = {Comput. Phys. Commun.},
+  title = {{DeePMD-kit: A deep learning package for many-body potential energy representation and molecular dynamics}},
+  pages = {178--184}
+}
+@misc{Zeng_JChemPhys_2023_v159_p054801,
+  title  = {{DeePMD-kit v2: A software package for deep potential models}},
+  author =   {Jinzhe Zeng and Duo Zhang and Denghui Lu and Pinghui Mo and Zeyu Li
+         and Yixiao Chen and Mari{\'a}n Rynik and Li'ang Huang and Ziyao Li and 
+         Shaochen Shi and Yingze Wang and Haotian Ye and Ping Tuo and Jiabin
+         Yang and Ye Ding and Yifan Li and Davide Tisi and Qiyu Zeng and Han 
+         Bao and Yu Xia and Jiameng Huang and Koki Muraoka and Yibo Wang and 
+         Junhan Chang and Fengbo Yuan and Sigbj{\o}rn L{\o}land Bore and Chun
+         Cai and Yinnian Lin and Bo Wang and Jiayan Xu and Jia-Xin Zhu and 
+         Chenxing Luo and Yuzhi Zhang and Rhys E A Goodall and Wenshuo Liang
+         and Anurag Kumar Singh and Sikai Yao and Jingchao Zhang and Renata
+         Wentzcovitch and Jiequn Han and Jie Liu and Weile Jia and Darrin M
+         York and Weinan E and Roberto Car and Linfeng Zhang and Han Wang},
+  journal =  {J. Chem. Phys.},
+  volume =   159,
+  issue =    5,  
+  year =    2023,
+  pages  =   054801,
+  doi =      {10.1063/5.0155600},
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  binsize = 3.5, bins = 22 22 19
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair deepmd, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 89.91 | 89.91 | 89.91 Mbytes
+   Step          CPU            Temp          KinEng         PotEng         TotEng         Press          Volume          Pxx            Pyy            Pzz      
+         0   0              300            893.40734     -299797.82     -298904.41     -45046.365      373607.89     -45040.409     -45061.311     -45037.377    
+        10   0.22290377     275.63631      820.85168     -299725.13     -298904.27     -44392.211      373607.89     -44388.254     -44408.639     -44379.739    
+        20   0.38475227     211.72761      630.53001     -299533.36     -298902.83     -42650.122      373607.89     -42651.626     -42669.709     -42629.031    
+        30   0.54823916     132.29205      393.96897     -299293.25     -298899.28     -40523.503      373607.89     -40532.519     -40545.915     -40492.075    
+        40   0.71832362     65.806822      195.97433     -299092.39     -298896.42     -38804.617      373607.89     -38820.942     -38829.268     -38763.64     
+        50   0.88909912     34.99613       104.21933     -298998.97     -298894.75     -38079.867      373607.89     -38101.247     -38105.53      -38032.823    
+        60   1.074006       47.376487      141.08834     -299034.17     -298893.08     -38510.872      373607.89     -38534.457     -38534.537     -38463.622    
+        70   1.2369338      93.208847      277.57823     -299167.48     -298889.9      -39771.098      373607.89     -39794.432     -39789.06      -39729.801    
+        80   1.4000295      151.1038       449.9908      -299334.26     -298884.27     -41260.741      373607.89     -41281.142     -41270.41      -41230.672    
+        90   1.5643068      197.95874      589.52596     -299466.16     -298876.63     -42373.965      373607.89     -42387.541     -42376.265     -42358.088    
+       100   1.7317444      218.97771      652.12098     -299520.3      -298868.17     -42701.658      373607.89     -42704.825     -42701.063     -42699.085    
+Loop time of 1.73182 on 40 procs for 100 steps with 23040 atoms
+
+Performance: 4.989 ns/day, 4.811 hours/ns, 57.743 timesteps/s, 1.330 Matom-step/s
+103.9% CPU use with 1 MPI tasks x 40 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 1.679      | 1.679      | 1.679      |   0.0 | 96.95
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.0086843  | 0.0086843  | 0.0086843  |   0.0 |  0.50
+Output  | 0.001969   | 0.001969   | 0.001969   |   0.0 |  0.11
+Modify  | 0.032106   | 0.032106   | 0.032106   |   0.0 |  1.85
+Other   |            | 0.01008    |            |       |  0.58
+
+Nlocal:          23040 ave       23040 max       23040 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          16801 ave       16801 max       16801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  2.02752e+06 ave 2.02752e+06 max 2.02752e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 2027520
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:03

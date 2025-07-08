@@ -1,0 +1,217 @@
+/* -------------------------------------------------------------------------
+   LAMMPS - Large-scale Atomic/Molecular Massively Parallel Simulator
+   http://lammps.sandia.gov, Sandia National Laboratories
+   Steve Plimpton, sjplimp@sandia.gov
+
+   Copyright (2003) Sandia Corporation.  Under the terms of Contract
+   DE-AC04-94AL85000 with Sandia Corporation, the U.S. Government retains
+   certain rights in this software.  This software is distributed under
+   the GNU General Public License.
+
+   See the README file in the top-level LAMMPS directory.
+------------------------------------------------------------------------- */
+
+#include "compute_tensormd_density.h"
+
+#include "atom.h"
+#include "comm.h"
+#include "force.h"
+#include "memory.h"
+#include "modify.h"
+#include "neigh_list.h"
+#include "neighbor.h"
+#include "pair_tensormd.h"
+#include "update.h"
+#include "error.h"
+
+using namespace LAMMPS_NS;
+
+/* ---------------------------------------------------------------------- */
+
+ComputeTensorMDDensity::ComputeTensorMDDensity(LAMMPS *lmp, int narg, char **arg) :
+    Compute(lmp, narg, arg), list(nullptr), dpot(nullptr), fpot(nullptr)
+{
+  if (narg < 3) error->all(FLERR, "Illegal compute mtnp command");
+
+  pair = dynamic_cast<PairTensorMD *>(lmp->force->pair);
+  if (pair == nullptr)
+    error->all(FLERR,
+               "pair tensoralloy/native must be initialized before command "
+               "compute mtnp");
+
+  size_peratom_cols = this->coeff(pair->get_coeff_args());
+  peratom_flag = 1;
+  timeflag = 1;
+  comm_reverse = 0;
+  nmax = 0;
+  G = nullptr;
+}
+
+/* ---------------------------------------------------------------------- */
+
+ComputeTensorMDDensity::~ComputeTensorMDDensity() {
+  delete dpot;
+  delete fpot;
+
+  memory->destroy(G);
+}
+
+/* ---------------------------------------------------------------------- */
+
+void ComputeTensorMDDensity::init()
+{
+  neighbor->add_request(this,
+                        NeighConst::REQ_FULL | NeighConst::REQ_OCCASIONAL);
+  if (modify->get_compute_by_style("mtnp/density").size() > 1 && comm->me == 0)
+    error->warning(FLERR, "More than one compute mtnp/density");
+}
+
+/* ---------------------------------------------------------------------- */
+
+void ComputeTensorMDDensity::init_list(int /*id*/, NeighList *ptr)
+{
+  list = ptr;
+}
+
+/* ---------------------------------------------------------------------- 
+ Coeff functions
+ ------------------------------------------------------------------------ */
+
+void ComputeTensorMDDensity::read_potential_file(const std::string &globalfile)
+{
+  int nelt;
+  std::vector<int> numbers;
+  std::vector<double> masses;
+  auto npz = cnpy::npz_load(globalfile);
+  if (npz.find("precision") != npz.end()) {
+    if (npz["precision"].data<int>()[0] == 32) {
+      fpot = new TensorMD<float>(memory, error, screen, logfile,
+                                          comm->me);
+      fpot->timer_switch(false);
+    }
+  }
+  if (!fpot) {
+    dpot = new TensorMD<double>(memory, error, screen, logfile, comm->me);
+    dpot->timer_switch(false);
+  }
+  if (fpot)
+    fpot->read_npz(npz, nelt, numbers, masses);
+  else
+    dpot->read_npz(npz, nelt, numbers, masses);
+}
+
+
+int ComputeTensorMDDensity::coeff(std::vector<std::string> args)
+{
+  double dx = 0.0001;
+  double cutmax;
+  int algo = 1;
+
+  std::string lib_file = utils::get_potential_file_path(args[0]);
+  read_potential_file(lib_file);
+  if (dpot)
+    dpot->setup_global(&cutmax);
+  else
+    fpot->setup_global(&cutmax);
+
+  // setup fnn interpolation
+  if (dpot) {
+    dpot->setup_interpolation(dx);
+  } else {
+    fpot->setup_interpolation(static_cast<float>(dx));
+  }
+
+  return dpot ? dpot->get_total_dim() : fpot->get_total_dim();
+}
+
+/* ---------------------------------------------------------------------- */
+
+void ComputeTensorMDDensity::compute_peratom()
+{
+  invoked_peratom = update->ntimestep;
+
+  // Grow G if necessary
+  if (atom->nmax > nmax) {
+    memory->destroy(G);
+    nmax = atom->nmax;
+    memory->create(G, nmax, size_peratom_cols, "mtnp/atom:density");
+    array_atom = G;
+  }
+
+  // invoke full neighbor list (will copy or build if necessary)
+  neighbor->build_one(list);
+
+  int ntypes = atom->ntypes;
+  int numneigh_max[ntypes];
+  int typenums[ntypes];
+  int elti, i, j, a, loc, ii, nnl_max;
+
+  // The atom map
+  const int* map = pair->get_atom_map();
+
+  // Set zeros
+  for (elti = 0; elti < this->atom->ntypes; elti++) {
+    typenums[elti] = 0;
+    numneigh_max[elti] = 0;
+  }
+
+  // Get `numneigh_max` and `ntypes`
+  for (ii = 0; ii < list->inum; ii++) {
+    i = list->ilist[ii];
+    elti = map[atom->type[i]];
+    typenums[elti]++;
+    numneigh_max[elti] = MAX(numneigh_max[elti], list->numneigh[i]);
+  }
+
+  // Compute `nnl_max`
+  nnl_max = 0;
+  for (elti = 0; elti < ntypes; elti++) {
+    nnl_max = MAX(nnl_max, static_cast<double>(numneigh_max[elti]));
+  }
+
+  // grow local array if float32 model is used.
+  // needs to be atom->nmax in length
+  // Allocate memory for tensors
+  if (dpot)
+    dpot->setup_local(atom->nlocal, nnl_max, typenums);
+  else
+    fpot->setup_local(atom->nlocal, nnl_max, typenums);
+
+  // Calculate density
+  if (dpot)
+    dpot->calc_tensor_density(list->ilist, list->inum, atom->type, map, atom->x,
+                              nnl_max, list->numneigh, list->firstneigh, atom->nmax,
+                              false);
+  else
+    fpot->calc_tensor_density(list->ilist, list->inum, atom->type, map, atom->x,
+                              nnl_max, list->numneigh, list->firstneigh, atom->nmax,
+                              false);
+
+  int nlocal = atom->nlocal;
+  const int *i2row = dpot ? dpot->get_i2row() : fpot->get_i2row();
+  for (i = 0; i < nlocal; i++) {
+    if (i2row)
+      a = i2row[i];
+    else
+      a = i;
+    loc = a * size_peratom_cols;
+    for (j = 0; j < size_peratom_cols; j++) {
+      if (dpot)
+        G[i][j] = dpot->get_G()[loc + j];
+      else
+        G[i][j] = static_cast<double>(fpot->get_G()[loc + j]);
+    }
+  }
+}
+
+/* ----------------------------------------------------------------------
+   memory usage of local atom-based array
+------------------------------------------------------------------------- */
+
+double ComputeTensorMDDensity::memory_usage()
+{
+  double bytes = (double)nmax * size_peratom_cols * sizeof(double);
+  bytes += dpot ? dpot->memory_usage() : fpot->memory_usage();
+  return bytes;
+}
+

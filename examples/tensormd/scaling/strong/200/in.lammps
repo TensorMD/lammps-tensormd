@@ -1,0 +1,40 @@
+variable                    pnx     equal 8
+variable                    pny     equal 10
+variable                    pnz     equal 10
+variable                    T       equal 300
+variable                    R       equal 984523
+variable                    bnx     equal 50
+variable                    bny     equal 50
+variable                    bnz     equal 50
+variable                    nx      equal ${pnx}*${bnx}
+variable                    ny      equal ${pny}*${bny}
+variable                    nz      equal ${pnz}*${bnz}
+
+processors                  ${pnx} ${pny} ${pnz}
+
+units		                metal      
+dimension                   3          
+boundary	                p p p      
+atom_style	                atomic
+atom_modify                 id no
+
+lattice                     bcc 3.189
+region                      box block 0 ${nx} 0 ${ny} 0 ${nz}
+create_box                  1 box
+create_atoms                1 box
+ 
+pair_style	                tensormd
+pair_coeff	                * * ../../W_k32_snapshot.npz W interp 0.001
+
+mass                        1 183.8 
+
+neighbor                    1.0 bin
+neigh_modify                every 5 delay 0 check yes
+
+thermo                      10
+thermo_style                custom step cpu temp ke pe etotal press vol pxx pyy pzz
+
+velocity                    all create $T $R dist gaussian loop local
+fix                         1 all nvt temp $T $T 0.1
+
+run                         100

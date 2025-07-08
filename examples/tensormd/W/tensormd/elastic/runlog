@@ -1,0 +1,1233 @@
+LAMMPS (2 Aug 2023)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+Lattice spacing in x,y,z = 3.1719118 3.1719118 3.1719118
+Created triclinic box = (0 0 0) to (3.1719118 3.1719118 3.1719118) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+Created 2 atoms
+  using lattice units in triclinic box = (0 0 0) to (3.1719118 3.1719118 3.1719118) with tilt (0 0 0)
+  create_atoms CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 0
+WARNING: Energy due to 3 extra global DOFs will be included in minimizer energies
+ (src/min.cpp:225)
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         0   0             -26.037466     -668.65163     -668.65163     -668.65163     -668.65163     -4.4961146e-12 -5.443238e-12   2.7651649e-11  3.1719118      3.1719118      3.1719118      31.912682    
+         1   0             -26.037468     -0.12257405    -0.12257405    -0.12257405    -0.12257405    -5.6828507e-11 -3.5192515e-11 -4.5994178e-11  3.1716887      3.1716887      3.1716887      31.90595     
+         2   0             -26.037468     -1.8609687e-06 -1.8609799e-06 -1.8609683e-06 -1.8609579e-06 -2.30842e-12   -3.5453847e-11  2.0906445e-12  3.1716887      3.1716887      3.1716887      31.905948    
+Loop time of 0.00580632 on 1 procs for 2 steps with 2 atoms
+
+74.3% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374662576939  -26.0374676631529  -26.0374676631529
+  Force two-norm initial, final = 0.023068188 6.4193573e-11
+  Force max component initial, final = 0.013318425 3.70624e-11
+  Final line search alpha, max atom move = 1 3.70624e-11
+  Iterations, force evaluations = 2 4
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0055039  | 0.0055039  | 0.0055039  |   0.0 | 94.79
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 3.3783e-05 | 3.3783e-05 | 3.3783e-05 |   0.0 |  0.58
+Output  | 6.1263e-05 | 6.1263e-05 | 6.1263e-05 |   0.0 |  1.06
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.0002074  |            |       |  3.57
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+Displacing atoms ...
+System init for write_restart ...
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0020 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.7053 MFlops,       0.0003 secs,    2579.8428 MFLOP/s
+       Kernel1:     1.6262 MFlops,       0.0002 secs,    6984.4569 MFLOP/s
+   nn->compute:     3.3050 MFlops,       0.0015 secs,    2270.4534 MFLOP/s
+          dEdP:     0.1421 MFlops,       0.0001 secs,    1207.4959 MFLOP/s
+             V:     1.4848 MFlops,       0.0001 secs,   10776.9915 MFLOP/s
+            F2:     0.0249 MFlops,       0.0001 secs,     274.8391 MFLOP/s
+       Kernel4:     1.5608 MFlops,       0.0002 secs,    7672.6214 MFLOP/s
+        forces:     0.0070 MFlops,       0.0010 secs,       7.1901 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     8.8561 MFlops,       0.0054 secs,    1628.6291 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1717685 3.1718002 3.1718002) with tilt (0 0 0)
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1717685 3.1718002 3.1718002) with tilt (0 0 0)
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1717685 3.1718002 3.1718002) with tilt (0 0 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468      31.703825      54.710677      20.200398      20.200398     -6.3078225e-11  1.1536958e-10  4.4862196e-11  3.171657       3.1716887      3.1716887      31.905629    
+         3   0             -26.037468      31.703825      54.710677      20.200398      20.200398     -3.6230904e-11  2.2952488e-11  1.0540438e-11  3.171657       3.1716887      3.1716887      31.905629    
+Loop time of 0.00253495 on 1 procs for 1 steps with 2 atoms
+
+18.3% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676577055  -26.0374676577055  -26.0374676577055
+  Force two-norm initial, final = 1.0702695e-07 2.1765e-13
+  Force max component initial, final = 5.9104637e-08 1.1823268e-13
+  Final line search alpha, max atom move = 1 1.1823268e-13
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024548  | 0.0024548  | 0.0024548  |   0.0 | 96.84
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.902e-06  | 6.902e-06  | 6.902e-06  |   0.0 |  0.27
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 7.328e-05  |            |       |  2.89
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0009 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2831.5969 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10542.4293 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3399.2512 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0000 secs,    1750.3645 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16099.4651 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     356.0653 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8515.4356 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,       9.6623 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0024 secs,    2180.4745 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.171832 3.1718002 3.1718002) with tilt (0 0 0)
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.171832 3.1718002 3.1718002) with tilt (0 0 0)
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.171832 3.1718002 3.1718002) with tilt (0 0 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468     -31.699798     -54.69996      -20.199717     -20.199717     -1.070279e-10  -4.6438693e-12 -8.7109318e-13  3.1717204      3.1716887      3.1716887      31.906267    
+         3   0             -26.037468     -31.699798     -54.69996      -20.199717     -20.199717      1.5270443e-11 -8.9778707e-11 -5.2265591e-12  3.1717204      3.1716887      3.1716887      31.906267    
+Loop time of 0.00253794 on 1 procs for 1 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676577062  -26.0374676577062  -26.0374676577062
+  Force two-norm initial, final = 1.0703028e-07 1.9955055e-13
+  Force max component initial, final = 5.9106753e-08 1.0711397e-13
+  Final line search alpha, max atom move = 1 1.0711397e-13
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024717  | 0.0024717  | 0.0024717  |   0.0 | 97.39
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.79e-06   | 6.79e-06   | 6.79e-06   |   0.0 |  0.27
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.948e-05  |            |       |  2.34
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0009 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2830.6877 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10496.4985 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3399.9215 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0000 secs,    1747.9598 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   12608.3388 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     361.1352 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8521.5571 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,      10.2382 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0025 secs,    2165.8817 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1717685 3.1718002) with tilt (0 0 0)
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1717685 3.1718002) with tilt (0 0 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468      31.703825      20.200398      54.710677      20.200398     -4.2379558e-11 -6.8036721e-12  1.7335101e-11  3.1716887      3.171657       3.1716887      31.905629    
+         3   0             -26.037468      31.703825      20.200398      54.710677      20.200398     -5.5277671e-11  2.6627545e-12 -1.0453327e-12  3.1716887      3.171657       3.1716887      31.905629    
+Loop time of 0.00257364 on 1 procs for 1 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676577055  -26.0374676577055  -26.0374676577055
+  Force two-norm initial, final = 1.0702711e-07 2.1238142e-13
+  Force max component initial, final = 5.9104985e-08 1.2118735e-13
+  Final line search alpha, max atom move = 1 1.2118735e-13
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024811  | 0.0024811  | 0.0024811  |   0.0 | 96.40
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.564e-06  | 6.564e-06  | 6.564e-06  |   0.0 |  0.26
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 8.597e-05  |            |       |  3.34
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0010 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2821.3645 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10393.3022 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3423.9080 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0000 secs,    1817.9647 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16238.2662 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     373.7263 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8654.3324 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,      10.2087 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0025 secs,    2157.6437 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.171832 3.1718002) with tilt (0 0 0)
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.171832 3.1718002) with tilt (0 0 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468     -31.699798     -20.199717     -54.69996      -20.199717     -6.8345596e-11 -5.7524802e-11  6.3938239e-11  3.1716887      3.1717204      3.1716887      31.906267    
+         3   0             -26.037468     -31.699798     -20.199717     -54.69996      -20.199717      1.4985696e-11 -6.2286685e-11  3.1707792e-11  3.1716887      3.1717204      3.1716887      31.906267    
+Loop time of 0.00252013 on 1 procs for 1 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676577062  -26.0374676577062  -26.0374676577062
+  Force two-norm initial, final = 1.0703012e-07 1.9061449e-13
+  Force max component initial, final = 5.9106386e-08 1.0803858e-13
+  Final line search alpha, max atom move = 1 1.0803858e-13
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024501  | 0.0024501  | 0.0024501  |   0.0 | 97.22
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.918e-06  | 6.918e-06  | 6.918e-06  |   0.0 |  0.27
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 6.308e-05  |            |       |  2.50
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0009 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2829.3818 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10332.5497 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3417.8709 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0001 secs,    1474.1138 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16245.3728 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     367.5665 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8562.6194 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,      10.3212 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0024 secs,    2184.5399 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1717685) with tilt (0 0 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468      31.703825      20.200398      20.200398      54.710677     -1.1923191e-10  1.377441e-10  -1.3763547e-11  3.1716887      3.1716887      3.171657       31.905629    
+         3   0             -26.037468      31.703825      20.200398      20.200398      54.710677     -1.5729265e-11  3.9893364e-11  3.4931535e-11  3.1716887      3.1716887      3.171657       31.905629    
+Loop time of 0.00251982 on 1 procs for 1 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676577055  -26.0374676577055  -26.0374676577055
+  Force two-norm initial, final = 1.0702732e-07 6.6521408e-14
+  Force max component initial, final = 5.9104985e-08 4.6486036e-14
+  Final line search alpha, max atom move = 1 4.6486036e-14
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024564  | 0.0024564  | 0.0024564  |   0.0 | 97.48
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.361e-06  | 6.361e-06  | 6.361e-06  |   0.0 |  0.25
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.705e-05  |            |       |  2.26
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0010 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2840.9689 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10399.9488 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3421.6571 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0000 secs,    1784.8873 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16550.8016 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     371.6748 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8674.4537 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,      10.3532 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0024 secs,    2178.6302 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.171832) with tilt (0 0 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468     -31.699798     -20.199717     -20.199717     -54.69996       1.034969e-11  -8.4826048e-13 -4.1289817e-11  3.1716887      3.1716887      3.1717204      31.906267    
+         3   0             -26.037468     -31.699798     -20.199717     -20.199717     -54.69996      -3.2179257e-11  2.1494527e-11  3.4843727e-13  3.1716887      3.1716887      3.1717204      31.906267    
+Loop time of 0.00252879 on 1 procs for 1 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676577062  -26.0374676577062  -26.0374676577062
+  Force two-norm initial, final = 1.0702989e-07 5.8073841e-14
+  Force max component initial, final = 5.9106386e-08 4.0362462e-14
+  Final line search alpha, max atom move = 1 4.0362462e-14
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024671  | 0.0024671  | 0.0024671  |   0.0 | 97.56
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.596e-06  | 6.596e-06  | 6.596e-06  |   0.0 |  0.26
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.506e-05  |            |       |  2.18
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0010 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2839.8440 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10262.3475 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3439.1573 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0001 secs,    1482.2130 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16210.7868 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     361.5279 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8624.2851 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,      10.3561 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0024 secs,    2169.4666 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 -3.1716887e-05)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468      1.9908933e-05 -7.1773554e-05  3.3429465e-06  0.00012815741  1.7736539e-11 -3.4844647e-11  14.867028      3.1716887      3.1716887      3.1716887      31.905948    
+         3   0             -26.037468      1.9908223e-05 -7.1774431e-05  3.3423914e-06  0.00012815671 -1.1841403e-10  1.024968e-11   14.867028      3.1716887      3.1716887      3.1716887      31.905948    
+Loop time of 0.00255221 on 1 procs for 1 steps with 2 atoms
+
+102.3% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676616726  -26.0374676616726  -26.0374676616726
+  Force two-norm initial, final = 1.0702932e-07 2.0503182e-12
+  Force max component initial, final = 5.9105684e-08 1.4054144e-12
+  Final line search alpha, max atom move = 1 1.4054144e-12
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024881  | 0.0024881  | 0.0024881  |   0.0 | 97.49
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.343e-06  | 6.343e-06  | 6.343e-06  |   0.0 |  0.25
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.775e-05  |            |       |  2.26
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0010 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2838.5296 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10362.7269 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3390.3013 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0000 secs,    1806.0634 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16102.3750 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     364.1142 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8567.5547 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,      10.2746 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0025 secs,    2151.2573 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 3.1716887e-05)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468      1.990913e-05  -7.1773269e-05  3.3430227e-06  0.00012815764  5.0741207e-12  5.3541291e-12 -14.867028      3.1716887      3.1716887      3.1716887      31.905948    
+         3   0             -26.037468      1.9909059e-05 -7.1773529e-05  3.3431001e-06  0.00012815761  7.8382485e-11 -1.3735103e-10 -14.867028      3.1716887      3.1716887      3.1716887      31.905948    
+Loop time of 0.00254322 on 1 procs for 1 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676616726  -26.0374676616726  -26.0374676616726
+  Force two-norm initial, final = 1.0702789e-07 2.0466765e-12
+  Force max component initial, final = 5.9105682e-08 1.4032493e-12
+  Final line search alpha, max atom move = 1 1.4032493e-12
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024603  | 0.0024603  | 0.0024603  |   0.0 | 96.74
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.874e-06  | 6.874e-06  | 6.874e-06  |   0.0 |  0.27
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 7.605e-05  |            |       |  2.99
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0009 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2853.2091 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,    9102.5141 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3360.3575 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0000 secs,    1826.0255 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16300.0640 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     372.1462 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8549.0962 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,      10.3178 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0024 secs,    2176.0214 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 -3.1716887e-05 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468      1.990944e-05   3.3436228e-06 -7.1773224e-05  0.00012815792 -9.087692e-11   14.867028     -5.3485656e-11  3.1716887      3.1716887      3.1716887      31.905948    
+         3   0             -26.037468      1.9908843e-05  3.3429854e-06 -7.1773728e-05  0.00012815727 -3.5387152e-11  14.867028      4.137734e-11   3.1716887      3.1716887      3.1716887      31.905948    
+Loop time of 0.00257429 on 1 procs for 1 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676616726  -26.0374676616726  -26.0374676616726
+  Force two-norm initial, final = 1.0702953e-07 2.6033257e-12
+  Force max component initial, final = 5.9106166e-08 1.8073353e-12
+  Final line search alpha, max atom move = 1 1.8073353e-12
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024963  | 0.0024963  | 0.0024963  |   0.0 | 96.97
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.841e-06  | 6.841e-06  | 6.841e-06  |   0.0 |  0.27
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 7.112e-05  |            |       |  2.76
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0010 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2851.0753 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10422.1657 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3436.4098 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0000 secs,    1849.7190 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16443.5749 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     376.9175 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8520.8593 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,       9.8524 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0025 secs,    2143.9220 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 3.1716887e-05 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468      1.9909007e-05  3.342982e-06  -7.1773595e-05  0.00012815763 -1.2114295e-10 -14.867028     -3.1969439e-11  3.1716887      3.1716887      3.1716887      31.905948    
+         3   0             -26.037468      1.9908998e-05  3.3432124e-06 -7.1773568e-05  0.00012815735  2.3028886e-12 -14.867028     -6.5419752e-11  3.1716887      3.1716887      3.1716887      31.905948    
+Loop time of 0.00248413 on 1 procs for 1 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676616726  -26.0374676616726  -26.0374676616726
+  Force two-norm initial, final = 1.0702768e-07 2.5992669e-12
+  Force max component initial, final = 5.9105211e-08 1.8048866e-12
+  Final line search alpha, max atom move = 1 1.8048866e-12
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024258  | 0.0024258  | 0.0024258  |   0.0 | 97.65
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 7.251e-06  | 7.251e-06  | 7.251e-06  |   0.0 |  0.29
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.112e-05  |            |       |  2.06
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0009 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2827.1324 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10311.8025 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3432.4898 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0001 secs,    1541.7782 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16439.0235 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     376.2635 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8656.1723 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,      10.3120 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0024 secs,    2206.0463 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (-3.1716887e-05 0 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468      1.9908692e-05  3.3429328e-06  0.00012815691 -7.1773765e-05  14.867028      9.9173188e-12  1.4198961e-11  3.1716887      3.1716887      3.1716887      31.905948    
+         3   0             -26.037468      1.9908213e-05  3.3424024e-06  0.00012815653 -7.177429e-05   14.867028     -9.1327155e-11  4.9304367e-11  3.1716887      3.1716887      3.1716887      31.905948    
+Loop time of 0.00251734 on 1 procs for 1 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676616726  -26.0374676616726  -26.0374676616726
+  Force two-norm initial, final = 1.0702486e-07 9.6662772e-13
+  Force max component initial, final = 5.910376e-08 4.984613e-13
+  Final line search alpha, max atom move = 1 4.984613e-13
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024534  | 0.0024534  | 0.0024534  |   0.0 | 97.46
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.862e-06  | 6.862e-06  | 6.862e-06  |   0.0 |  0.27
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.706e-05  |            |       |  2.27
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0009 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2824.5094 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,   10145.9276 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3403.8024 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0000 secs,    1824.6185 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16366.2417 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     368.6259 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8700.8892 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,       9.9851 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0024 secs,    2182.1419 MFLOP/s
+--------------------------------------------------------------------------
+
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+
+The 'box' command has been removed and will be ignored
+
+Reading restart file ...
+  restart file = 2 Aug 2023, LAMMPS = 2 Aug 2023
+  restoring atom style atomic from restart
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  pair style tensormd stores no restart info
+  2 atoms
+  read_restart CPU = 0.000 seconds
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+Changing box ...
+  triclinic box = (0.00011155864 0.00011155864 0.00011155864) to (3.1718002 3.1718002 3.1718002) with tilt (3.1716887e-05 0 0)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/nsq
+      stencil: none
+      bin: none
+Setting up cg style minimization ...
+  Unit style    : metal
+  Current step  : 2
+Per MPI rank memory allocation (min/avg/max) = 4.1 | 4.1 | 4.1 Mbytes
+   Step          Temp          PotEng         Press           Pxx            Pyy            Pzz            Pxy            Pxz            Pyz             Lx             Ly             Lz           Volume    
+         2   0             -26.037468      1.990905e-05   3.343431e-06   0.00012815721 -7.1773489e-05 -14.867028     -5.6005038e-11  8.0141374e-12  3.1716887      3.1716887      3.1716887      31.905948    
+         3   0             -26.037468      1.9908633e-05  3.3428856e-06  0.00012815717 -7.1774161e-05 -14.867028      6.5478835e-11  6.6203744e-12  3.1716887      3.1716887      3.1716887      31.905948    
+Loop time of 0.00253638 on 1 procs for 1 steps with 2 atoms
+
+0.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+     -26.0374676616726  -26.0374676616726  -26.0374676616726
+  Force two-norm initial, final = 1.0703235e-07 9.6471193e-13
+  Force max component initial, final = 5.9107612e-08 4.9803694e-13
+  Final line search alpha, max atom move = 1 4.9803694e-13
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0024728  | 0.0024728  | 0.0024728  |   0.0 | 97.49
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 6.89e-06   | 6.89e-06   | 6.89e-06   |   0.0 |  0.27
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.67e-05   |            |       |  2.24
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            339 ave         339 max         339 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:          176 ave         176 max         176 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 176
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+=========================================
+Components of the Elastic Constant Tensor
+=========================================
+Elastic Constant C11all = 547.053183408158 GPa
+Elastic Constant C22all = 547.053183408851 GPa
+Elastic Constant C33all = 547.05318340656 GPa
+Elastic Constant C12all = 202.000578079044 GPa
+Elastic Constant C13all = 202.000578079104 GPa
+Elastic Constant C23all = 202.0005780789 GPa
+Elastic Constant C44all = 148.670279236615 GPa
+Elastic Constant C55all = 148.670279237226 GPa
+Elastic Constant C66all = 148.670279236852 GPa
+Elastic Constant C14all = -2.21585445640743e-09 GPa
+Elastic Constant C15all = -2.85553666024906e-10 GPa
+Elastic Constant C16all = -1.33674370682517e-09 GPa
+Elastic Constant C24all = -1.85354072210124e-09 GPa
+Elastic Constant C25all = -2.36591067653193e-10 GPa
+Elastic Constant C26all = -1.79089909712933e-09 GPa
+Elastic Constant C34all = -2.15902515049785e-09 GPa
+Elastic Constant C35all = -1.45209772132713e-10 GPa
+Elastic Constant C36all = -2.80311616783574e-10 GPa
+Elastic Constant C45all = 6.35994505265711e-10 GPa
+Elastic Constant C46all = -3.85281305245447e-10 GPa
+Elastic Constant C56all = -4.86240074909158e-10 GPa
+=========================================
+Average properties for a cubic crystal
+=========================================
+Bulk Modulus = 317.018113188629 GPa
+Shear Modulus 1 = 148.670279236898 GPa
+Shear Modulus 2 = 172.52630266442 GPa
+Poisson Ratio = 0.269674339099566
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 MFlops,       0.0000 secs,       0.0000 MFLOP/s
+         setup:     0.0000 MFlops,       0.0010 secs,       0.0000 MFLOP/s
+   fnn->interp:     0.4232 MFlops,       0.0001 secs,    2822.9832 MFLOP/s
+       Kernel1:     0.9757 MFlops,       0.0001 secs,    9873.2533 MFLOP/s
+   nn->compute:     1.9830 MFlops,       0.0006 secs,    3410.3411 MFLOP/s
+          dEdP:     0.0852 MFlops,       0.0000 secs,    1848.4756 MFLOP/s
+             V:     0.8909 MFlops,       0.0001 secs,   16572.0451 MFLOP/s
+            F2:     0.0150 MFlops,       0.0000 secs,     373.9130 MFLOP/s
+       Kernel4:     0.9365 MFlops,       0.0001 secs,    8629.0532 MFLOP/s
+        forces:     0.0042 MFlops,       0.0004 secs,      10.3862 MFLOP/s
+--------------------------------------------------------------------------
+       Overall:     5.3136 MFlops,       0.0025 secs,    2164.8113 MFLOP/s
+--------------------------------------------------------------------------
+
+Total wall time: 0:00:00

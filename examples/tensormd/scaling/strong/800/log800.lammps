@@ -1,0 +1,142 @@
+LAMMPS (2 Aug 2023)
+  using 6 OpenMP thread(s) per MPI task
+package omp 6 neigh yes
+using multi-threaded neighbor list subroutines
+variable                    pnx     equal 16
+variable                    pny     equal 20
+variable                    pnz     equal 10
+variable                    T       equal 300
+variable                    R       equal 984523
+variable                    bnx     equal 50
+variable                    bny     equal 50
+variable                    bnz     equal 50
+variable                    nx      equal 8*${bnx}
+variable                    nx      equal 8*50
+variable                    ny      equal 10*${bny}
+variable                    ny      equal 10*50
+variable                    nz      equal 10*${bnz}
+variable                    nz      equal 10*50
+
+processors                  ${pnx} ${pny} ${pnz}
+processors                  16 ${pny} ${pnz}
+processors                  16 20 ${pnz}
+processors                  16 20 10
+
+units		                metal
+dimension                   3
+boundary	                p p p
+atom_style	                atomic
+atom_modify                 id no
+
+lattice                     bcc 3.189
+Lattice spacing in x,y,z = 3.189 3.189 3.189
+region                      box block 0 ${nx} 0 ${ny} 0 ${nz}
+region                      box block 0 400 0 ${ny} 0 ${nz}
+region                      box block 0 400 0 500 0 ${nz}
+region                      box block 0 400 0 500 0 500
+create_box                  1 box
+Created orthogonal box = (0 0 0) to (1275.6 1594.5 1594.5)
+  16 by 20 by 10 MPI processor grid
+create_atoms                1 box
+Created 200000000 atoms
+  using lattice units in orthogonal box = (0 0 0) to (1275.6 1594.5 1594.5)
+  create_atoms CPU = 0.012 seconds
+
+pair_style	                tensormd
+pair_coeff	                * * ../../W_k32_snapshot.npz W interp 0.001
+Read potential file: ../../W_k32_snapshot.npz
+Use 4 GPU(s) per node
+Use interpolation: dr = 0.0010
+
+mass                        1 183.8
+
+neighbor                    1.0 bin
+neigh_modify                every 5 delay 0 check yes
+
+thermo                      10
+thermo_style                custom step cpu temp ke pe etotal press vol pxx pyy pzz
+
+velocity                    all create $T $R dist gaussian loop local
+velocity                    all create 300 $R dist gaussian loop local
+velocity                    all create 300 984523 dist gaussian loop local
+fix                         1 all nvt temp $T $T 0.1
+fix                         1 all nvt temp 300 $T 0.1
+fix                         1 all nvt temp 300 300 0.1
+
+run                         100
+No /omp style for force computation currently active
+Neighbor list info ...
+  update: every = 5 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  binsize = 3.5, bins = 365 456 456
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on, omp
+      pair build: full/bin/atomonly/omp
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 55.91 | 55.95 | 55.98 Mbytes
+   Step          CPU            Temp          KinEng         PotEng         TotEng         Press          Volume          Pxx            Pyy            Pzz      
+         0   0              300            7755608.7     -2.5569739e+09 -2.5492183e+09  1557.2815      3.243124e+09   1557.2803      1557.3769      1557.1873    
+        10   0.77228345     275.35956      7118603.2     -2.5563359e+09 -2.5492173e+09  2696.5086      3.243124e+09   2696.5098      2696.6107      2696.4052    
+        20   1.5532199      210.56398      5443506       -2.5546565e+09 -2.549213e+09   5614.6043      3.243124e+09   5614.6096      5614.725       5614.4782    
+        30   2.3576578      129.7477       3354241.4     -2.552561e+09  -2.5492068e+09  9085.0076      3.243124e+09   9085.0172      9085.1517      9084.854     
+        40   3.1886781      62.808167      1623718.5     -2.5508252e+09 -2.5492015e+09  11765.797      3.243124e+09   11765.811      11765.959      11765.622    
+        50   4.0061176      32.753706      846749.75     -2.5500451e+09 -2.5491983e+09  12751.988      3.243124e+09   12752.005      12752.152      12751.806    
+        60   4.8395487      46.059014      1190719       -2.5503863e+09 -2.5491955e+09  11873.932      3.243124e+09   11873.955      11874.078      11873.762    
+        70   5.6639661      91.401238      2362907.4     -2.5515529e+09 -2.54919e+09    9689.4269      3.243124e+09   9689.4557      9689.5407      9689.2843    
+        80   6.497184       146.88108      3797174       -2.552977e+09  -2.5491799e+09  7200.8592      3.243124e+09   7200.8825      7200.9373      7200.7578    
+        90   7.3167282      190.97748      4937155.4     -2.5541032e+09 -2.549166e+09   5401.6328      3.243124e+09   5401.6308      5401.6846      5401.583     
+       100   8.1262616      211.14025      5458403.8     -2.5546089e+09 -2.5491505e+09  4843.4548      3.243124e+09   4843.4154      4843.4947      4843.4542    
+Loop time of 8.12698 on 19200 procs for 100 steps with 200000000 atoms
+
+Performance: 1.063 ns/day, 22.575 hours/ns, 12.305 timesteps/s, 2.461 Gatom-step/s
+105.7% CPU use with 3200 MPI tasks x 6 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 6.6247     | 6.878      | 7.1615     |   4.0 | 84.63
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.2137     | 0.50628    | 0.83503    |  16.3 |  6.23
+Output  | 0.062384   | 0.064842   | 0.066178   |   0.1 |  0.80
+Modify  | 0.52449    | 0.64159    | 0.73549    |   4.0 |  7.89
+Other   |            | 0.03624    |            |       |  0.45
+
+Nlocal:          62500 ave       64400 max       60650 min
+Histogram: 192 256 0 768 768 0 768 0 256 192
+Nghost:          32414 ave       34264 max       30514 min
+Histogram: 192 256 0 768 0 768 768 0 256 192
+Neighs:              0 ave           0 max           0 min
+Histogram: 3200 0 0 0 0 0 0 0 0 0
+FullNghs:      5.5e+06 ave  5.6672e+06 max  5.3372e+06 min
+Histogram: 192 256 0 768 768 0 768 0 256 192
+
+Total # of neighbors = 1.76e+10
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 TFlops,       0.0001 secs,       0.0000 TFLOP/s
+         setup:     0.0000 TFlops,       1.5504 secs,       0.0000 TFLOP/s
+   fnn->interp:     0.3344 TFlops,       0.5834 secs,       0.5732 TFLOP/s
+       Kernel1:     0.7482 TFlops,       0.8696 secs,       0.8603 TFLOP/s
+   nn->compute:     1.2424 TFlops,       0.6618 secs,       1.8774 TFLOP/s
+          dEdP:     0.0444 TFlops,       0.2547 secs,       0.1744 TFLOP/s
+             U:     0.7040 TFlops,       0.4745 secs,       1.4838 TFLOP/s
+             V:     0.7040 TFlops,       0.6656 secs,       1.0576 TFLOP/s
+            F1:     0.0369 TFlops,       1.0891 secs,       0.0338 TFLOP/s
+            F2:     0.1832 TFlops,       0.2166 secs,       0.8456 TFLOP/s
+        forces:     0.0066 TFlops,       0.4757 secs,       0.0139 TFLOP/s
+--------------------------------------------------------------------------
+       Overall:     4.0040 TFlops,       6.8415 secs,       0.5853 TFLOP/s
+--------------------------------------------------------------------------
+
+Total wall time: 0:00:13

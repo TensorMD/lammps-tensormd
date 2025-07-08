@@ -1,0 +1,26 @@
+##############
+### elastic###
+##############
+Dangerous builds = 0
+=========================================
+Components of the Elastic Constant Tensor
+=========================================
+Elastic Constant C11all = 525.748475739268 GPa
+Elastic Constant C22all = 525.748475734677 GPa
+Elastic Constant C33all = 525.748475735248 GPa
+Elastic Constant C12all = 192.802086075557 GPa
+Elastic Constant C13all = 192.802086075203 GPa
+Elastic Constant C23all = 192.80208607204 GPa
+Elastic Constant C44all = 138.572200168651 GPa
+Elastic Constant C55all = 138.572200168862 GPa
+Elastic Constant C66all = 138.572200169056 GPa
+Elastic Constant C14all = 8.13300700521518e-10 GPa
+Elastic Constant C15all = 1.58085949335168e-10 GPa
+Elastic Constant C16all = -6.48458725599122e-10 GPa
+Elastic Constant C24all = 1.05304491036364e-09 GPa
+Elastic Constant C25all = -2.42136992720504e-10 GPa
+Elastic Constant C26all = -8.0502037149467e-10 GPa
+Elastic Constant C34all = 4.37242870175325e-10 GPa
+Elastic Constant C35all = 1.63269846196509e-09 GPa
+Elastic Constant C36all = -1.69198405947008e-10 GPa
+Elastic Constant C45all = -4.40292605017869e-10 GPa

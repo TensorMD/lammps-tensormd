@@ -1,0 +1,117 @@
+LAMMPS (2 Aug 2023)
+  using 40 OpenMP thread(s) per MPI task
+variable                    T equal 300
+variable                    R equal 984523
+
+units		                metal
+dimension                   3
+boundary	                p p p
+atom_style	                atomic
+
+lattice                     bcc 3.189
+Lattice spacing in x,y,z = 3.189 3.189 3.189
+region                      box block 0 24 0 24 0 100
+create_box                  1 box
+Created orthogonal box = (0 0 0) to (76.536 76.536 318.9)
+  1 by 1 by 1 MPI processor grid
+create_atoms                1 box
+Created 115200 atoms
+  using lattice units in orthogonal box = (0 0 0) to (76.536 76.536 318.9)
+  create_atoms CPU = 0.028 seconds
+
+pair_style	                tensormd
+pair_coeff	                * * ../W_m3_k64_n128_squareplus.npz W interp 0.001
+Read potential file: ../W_m3_k64_n128_squareplus.npz
+Use 2 GPU(s) per node
+Use interpolation: dr = 0.0010
+
+mass                        1 183.8
+
+neighbor                    1.0 bin
+neigh_modify                every 1 delay 0 check yes
+
+thermo                      10
+thermo_style                custom step cpu temp ke pe etotal press vol pxx pyy pzz
+
+velocity                    all create $T $R dist gaussian
+velocity                    all create 300 $R dist gaussian
+velocity                    all create 300 984523 dist gaussian
+fix                         1 all nvt temp $T $T 0.1
+fix                         1 all nvt temp 300 $T 0.1
+fix                         1 all nvt temp 300 300 0.1
+
+run                         100
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  binsize = 3.5, bins = 22 22 92
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 300.4 | 300.4 | 300.4 Mbytes
+   Step          CPU            Temp          KinEng         PotEng         TotEng         Press          Volume          Pxx            Pyy            Pzz      
+         0   0              300            4467.1918     -1499274.6     -1494807.4     -48138.195      1868039.4     -48129.797     -48136.673     -48148.113    
+        10   0.4571759      275.59494      4103.7849     -1498910.5     -1494806.7     -47288.257      1868039.4     -47280.583     -47287.513     -47296.675    
+        20   0.90964713     211.66981      3151.8988     -1497951.5     -1494799.6     -45058.643      1868039.4     -45053.164     -45059.94      -45062.824    
+        30   1.3654726      131.60205      1959.6387     -1496745.9     -1494786.2     -42301.749      1868039.4     -42299.527     -42305.722     -42299.998    
+        40   1.8280764      63.556425      946.39581     -1495722.7     -1494776.3     -40062.65       1868039.4     -40063.862     -40069.111     -40054.977    
+        50   2.2697144      30.363528      452.13235     -1495222.1     -1494770       -39137.1        1868039.4     -39140.904     -39145.024     -39125.371    
+        60   2.713514       40.338592      600.66743     -1495365.4     -1494764.7     -39760.138      1868039.4     -39764.953     -39767.951     -39747.511    
+        70   3.156582       85.275605      1269.8083     -1496023.8     -1494754       -41543.237      1868039.4     -41547.249     -41549.323     -41533.14     
+        80   3.6020359      145.11664      2160.8795     -1496895       -1494734.2     -43678.834      1868039.4     -43680.556     -43682.104     -43673.842    
+        90   4.0498169      197.06007      2934.3505     -1497640.7     -1494706.4     -45316.534      1868039.4     -45315.238     -45316.792     -45317.571    
+       100   4.4929762      224.67907      3345.6151     -1498020.7     -1494675.1     -45916.518      1868039.4     -45912.388     -45914.532     -45922.635    
+Loop time of 4.49301 on 40 procs for 100 steps with 115200 atoms
+
+Performance: 1.923 ns/day, 12.481 hours/ns, 22.257 timesteps/s, 2.564 Matom-step/s
+1334.5% CPU use with 1 MPI tasks x 40 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 4.1631     | 4.1631     | 4.1631     |   0.0 | 92.66
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.068384   | 0.068384   | 0.068384   |   0.0 |  1.52
+Output  | 0.0075901  | 0.0075901  | 0.0075901  |   0.0 |  0.17
+Modify  | 0.19289    | 0.19289    | 0.19289    |   0.0 |  4.29
+Other   |            | 0.06103    |            |       |  1.36
+
+Nlocal:         115200 ave      115200 max      115200 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          54641 ave       54641 max       54641 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  1.01376e+07 ave 1.01376e+07 max 1.01376e+07 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 10137600
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 TFlops,       0.0000 secs,       0.0000 TFLOP/s
+         setup:     0.0000 TFlops,       0.9878 secs,       0.0000 TFLOP/s
+   fnn->interp:     0.8125 TFlops,       0.5351 secs,       1.5184 TFLOP/s
+       Kernel1:     1.8734 TFlops,       0.5477 secs,       3.4208 TFLOP/s
+   nn->compute:     3.8073 TFlops,       0.5937 secs,       6.4133 TFLOP/s
+          dEdP:     0.1637 TFlops,       0.2089 secs,       0.7834 TFLOP/s
+             V:     1.7105 TFlops,       0.4389 secs,       3.8972 TFLOP/s
+            F2:     0.0287 TFlops,       0.1094 secs,       0.2626 TFLOP/s
+       Kernel4:     1.7980 TFlops,       0.5316 secs,       3.3821 TFLOP/s
+        forces:     0.0080 TFlops,       0.1736 secs,       0.0462 TFLOP/s
+--------------------------------------------------------------------------
+       Overall:    10.2022 TFlops,       4.1267 secs,       2.4722 TFLOP/s
+--------------------------------------------------------------------------
+
+Total wall time: 0:00:05
