@@ -1,0 +1,25 @@
+units             metal
+boundary          p p p
+atom_style        atomic
+
+read_data         AlMgSi.data
+replicate           10 10 3
+
+pair_style        tensormd
+pair_coeff        * * AlMgSi.24aug13.npz Al Mg Si interp 0.0001
+
+thermo              1
+thermo_style        custom step temp ke pe press pxx pyy pzz
+timestep            0.001
+
+neighbor            1.0 bin
+neigh_modify        every 1 delay 0 check yes
+
+velocity            all create 100.0 56789
+fix                 1 all nvt temp 100.0 100.0 $(100*dt)
+# compute             1 all pe/atom
+# dump                1 all custom dat 1 id type c_1
+# dump_modify         1 sort id format float "% 12.6f"
+# dump_modify         1 sort id format int "%5d"
+
+run                 50

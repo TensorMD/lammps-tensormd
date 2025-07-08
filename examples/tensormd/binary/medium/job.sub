@@ -1,0 +1,38 @@
+#!/bin/bash
+#PBS -N binary
+#PBS -q gpu
+#PBS -l walltime=720:00:00
+#PBS -l nodes=3:ppn=32
+#PBS -j oe
+#PBS -o output
+
+ulimit -c unlimited
+
+cd $PBS_O_WORKDIR
+
+source /public/software/env/profile.cuda 11.8
+source /public/software/oneapi/mkl/latest/env/vars.sh
+source /public/software/env/profile.gcc11
+source /public/software/env/profile.cmake
+source /public/software/env/profile.ompi-4.1.6-cuda
+export PATH=/public/home/chenxin/lammps_gpu/cmake/cmake-build-release:$PATH
+export OMPI_MCA_btl=^openib
+
+export OMP_NUM_THREADS=16
+
+# Total number of cores
+NP=`cat $PBS_NODEFILE | wc -l`
+
+# Total number of nodes
+NN=`cat $PBS_NODEFILE | sort | uniq | tee /tmp/nodes.$$ | wc -l`
+cat $PBS_NODEFILE > /tmp/nodefile.$$
+
+# Run Lammps
+mpirun -np 6 --map-by ppr:1:socket:PE=$OMP_NUM_THREADS --bind-to core lmp_mpi_gpu \
+    -pk omp $OMP_NUM_THREADS neigh yes \
+    -in in.lammps
+
+# Clean up
+rm -rf /tmp/nodefile.$$
+rm -rf /tmp/nodes.$$
+

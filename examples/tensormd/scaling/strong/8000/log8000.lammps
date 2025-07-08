@@ -1,0 +1,124 @@
+LAMMPS (2 Aug 2023)
+variable                    pnx     equal 30
+variable                    pny     equal 40
+variable                    pnz     equal 40
+variable                    T       equal 300
+variable                    R       equal 984523
+variable                    bnx     equal 54
+variable                    bny     equal 50
+variable                    bnz     equal 50
+variable                    nx      equal 15*${bnx}
+variable                    nx      equal 15*54
+variable                    ny      equal 20*${bny}
+variable                    ny      equal 20*50
+variable                    nz      equal 20*${bnz}
+variable                    nz      equal 20*50
+variable                    model   string /home/export/online1/mdt00/shisuan/swustcfd/oyyc/sc24/W.mar28.npz
+
+processors                  ${pnx} ${pny} ${pnz}
+processors                  30 ${pny} ${pnz}
+processors                  30 40 ${pnz}
+processors                  30 40 40
+
+units                       metal
+dimension                   3
+boundary                    p p p
+atom_style                  atomic
+atom_modify                 id no
+
+lattice                     bcc 3.1887
+Lattice spacing in x,y,z = 3.1887 3.1887 3.1887
+region                      box block 0 ${nx} 0 ${ny} 0 ${nz}
+region                      box block 0 810 0 ${ny} 0 ${nz}
+region                      box block 0 810 0 1000 0 ${nz}
+region                      box block 0 810 0 1000 0 1000
+create_box                  1 box
+Created orthogonal box = (0 0 0) to (2582.847 3188.7 3188.7)
+  30 by 40 by 40 MPI processor grid
+create_atoms                1 box
+Created 1620000000 atoms
+  using lattice units in orthogonal box = (0 0 0) to (2582.847 3188.7 3188.7)
+  create_atoms CPU = 0.022 seconds
+
+pair_style                  tensormd
+pair_coeff                  * * ${model} W interp 0.001 1 cmax exact
+pair_coeff                  * * /home/export/online1/mdt00/shisuan/swustcfd/oyyc/sc24/W.mar28.npz W interp 0.001 1 cmax exact
+Use interpolation: dr = 0.0010, algo = batch
+mass                        1 183.8
+neighbor                    1.0 bin
+neigh_modify                every 5 delay 0 check yes
+thermo                      10
+thermo_style                custom step cpu temp ke pe etotal press vol pxx pyy pzz
+velocity                    all create $T $R dist gaussian loop local
+velocity                    all create 300 $R dist gaussian loop local
+velocity                    all create 300 984523 dist gaussian loop local
+fix                         1 all nvt temp $T $T 0.1
+fix                         1 all nvt temp 300 $T 0.1
+fix                         1 all nvt temp 300 300 0.1
+run                         20
+Neighbor list info ...
+  update: every = 5 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  binsize = 3.5, bins = 738 912 912
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 1713 | 1782 | 1854 Mbytes
+   Step          CPU            Temp          KinEng         PotEng         TotEng         Press          Volume          Pxx            Pyy            Pzz      
+         0   0              300            62820430      -2.0711491e+10 -2.0648671e+10  2448.4186      2.6261892e+10  2448.4517      2448.3408      2448.4632    
+        10   4.9509444      275.31678      57651729      -2.0706316e+10 -2.0648665e+10  3590.6452      2.6261892e+10  3590.6774      3590.5763      3590.6819    
+        20   10.014842      210.41155      44060480      -2.06927e+10   -2.0648639e+10  6513.3872      2.6261892e+10  6513.42        6513.3396      6513.4019    
+Loop time of 10.0164 on 48000 procs for 20 steps with 1620000000 atoms
+
+Performance: 0.173 ns/day, 139.116 hours/ns, 1.997 timesteps/s, 3.235 Gatom-step/s
+98.1% CPU use with 48000 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 8.7048     | 9.2749     | 9.7018     |   4.8 | 92.60
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.046322   | 0.26025    | 1.0527     |  35.6 |  2.60
+Output  | 0.021535   | 0.023346   | 0.024839   |   0.1 |  0.23
+Modify  | 0.19462    | 0.43495    | 0.56142    |  16.1 |  4.34
+Other   |            | 0.02296    |            |       |  0.23
+
+Nlocal:          33750 ave       35127 max       32427 min
+Histogram: 270 0 6120 0 35220 0 0 6120 0 270
+Nghost:          21121 ave       22444 max       19744 min
+Histogram: 270 0 6120 0 0 35220 0 6120 0 270
+Neighs:              0 ave           0 max           0 min
+Histogram: 48000 0 0 0 0 0 0 0 0 0
+FullNghs:     2.97e+06 ave 3.09118e+06 max 2.85358e+06 min
+Histogram: 270 0 6120 0 35220 0 0 6120 0 270
+
+Total # of neighbors = 1.4256e+11
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 GFlops,       0.0000 secs,       0.0000 GFLOP/s
+         setup:     0.0000 GFlops,       0.9752 secs,       0.0000 GFLOP/s
+   fnn->interp:    23.8032 GFlops,       1.4730 secs,      16.1600 GFLOP/s
+       Kernel1:    54.8856 GFlops,       0.6082 secs,      90.2487 GFLOP/s
+   nn->compute:   134.1812 GFlops,       2.0879 secs,      64.2675 GFLOP/s
+          dEdP:     4.7952 GFlops,       0.2550 secs,      18.8042 GFLOP/s
+       Kernel3:    51.7955 GFlops,       1.4494 secs,      35.7351 GFLOP/s
+       Kernel4:    52.7351 GFlops,       1.6919 secs,      31.1685 GFLOP/s
+        forces:     0.4698 GFlops,       0.7162 secs,       0.6560 GFLOP/s
+--------------------------------------------------------------------------
+       Overall:   322.6655 GFlops,       9.2568 secs,      34.8573 GFLOP/s
+--------------------------------------------------------------------------
+
+Total wall time: 0:00:11

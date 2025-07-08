@@ -1,0 +1,37 @@
+variable                    pnx     equal 15
+variable                    pny     equal 20
+variable                    pnz     equal 20
+variable                    T       equal 300
+variable                    R       equal 984523
+variable                    bnx     equal 54
+variable                    bny     equal 50
+variable                    bnz     equal 50
+variable                    nx      equal ${pnx}*${bnx}
+variable                    ny      equal ${pny}*${bny}
+variable                    nz      equal ${pnz}*${bnz}
+variable                    model   string /home/export/online1/mdt00/shisuan/swustcfd/oyyc/sc24/W.mar28.npz
+
+processors                  ${pnx} ${pny} ${pnz}
+
+units                       metal      
+dimension                   3          
+boundary                    p p p      
+atom_style                  atomic    
+atom_modify                 id no
+
+lattice                     bcc 3.1887
+region                      box block 0 ${nx} 0 ${ny} 0 ${nz}
+create_box                  1 box
+create_atoms                1 box
+ 
+pair_style                  tensormd
+pair_coeff                  * * ${model} W interp 0.001 1 cmax exact
+mass                        1 183.8 
+neighbor                    1.0 bin
+neigh_modify                every 5 delay 0 check yes
+thermo                      10
+thermo_style                custom step cpu temp ke pe etotal press vol pxx pyy pzz
+velocity                    all create $T $R dist gaussian loop local
+fix                         1 all nvt temp $T $T 0.1
+run                         20
+

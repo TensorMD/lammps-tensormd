@@ -1,0 +1,16 @@
+Job <6913> has been submitted to queue <q_9a_8000>
+waiting for dispatch ...
+****************************** nnp-sw ******************************
+nnp-sw-using, block=4,max_col=32,M=2560,N=512,max_moment=3,beta=1,nlayers=5,max_layer=128
+Begin check!!,a===2560,G_size===1310720
+y_sw[0]===2331801925.789623,y[0]===2331801925.789623
+y_sw[1]===2364003767.063149,y[1]===2364003767.063149
+y_sw[2]===2289847538.465719,y[2]===2289847538.465719
+y_sw[3]===2275417442.038369,y[3]===2275417442.038369
+y_sw[4]===2388668752.906006,y[4]===2388668752.906006
+dydx_sw[0]===32148964.590655,dydx[0]===8704565.262649
+y test passed.
+dydx test failed.
+Final,master_time(xmath)===0.117505,slave_time===0.018158
+dispatching ...
+Job 6913 has been finished.

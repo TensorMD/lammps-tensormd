@@ -1,0 +1,63 @@
+#CC = mpicc
+CC = swgcc
+LD = swgcc
+EXE=main
+
+CFLAGS = -msimd -mieee -DCHECK_RESULT
+LDFLAGS = -mhybrid $(CFLAS)
+
+INCLUDES = -I../include/
+EXE_INCLUDES = -I/gfs_data/home/swyyz/swz/reflib/lapack-3.8.09a/include $(INCLUDES)
+
+EXE_LIBS = -L/gfs_data/home/swyyz/swz/reflib/lapack-3.8.09a -lcblas -L/gfs_data/home/swyyz/swz/reflib/xMath-SACA -lswblas -lgfortran 
+
+OBJDIR = ./obj
+
+slavesrc=$(wildcard ./slave/*.c)
+
+mastersrc=$(wildcard ./master/*.c)
+
+LIBOBJ1 += $(patsubst %.c, %.o, $(slavesrc) $(mastersrc))
+
+LIBOBJ2 = $(notdir $(LIBOBJ1))
+
+LIBOBJ3 += $(patsubst %.o, obj/%.o, $(LIBOBJ2))
+
+OBJ = ${LIBOBJ3}
+
+LIB = ../lib/libswTenserMD.a
+#LIB = ./libswdgemm.so
+
+all:$(EXE)
+
+ar:$(LIB)
+
+example:$(EXE)
+ 
+$(EXE):main.o $(LIB)
+	#mpicc -o $@ $^ libcblas.a -L/usr/sw/yyzlib/xMath -lswblas  -lgfortran
+	$(LD) $(LDFLAGS) -o $@ $^ $(EXE_LIBS) -lm
+
+$(LIB): $(OBJ)
+	#sw9gcc -mdynamic -shared -o  $@ $^
+	#sw9ar rcs libswtenserdgemm.a obj/*.o
+	#swar rcs $@ $^ 
+	swar rcs $@ $^ 
+	#swar rcs libswtenserdgemm.a obj/*.o
+
+main.o: main.c
+	$(CC) $(CFLAGS) $(EXE_INCLUDES) -O2 -mhost -faddress_align=128 -c $^ -o $@
+
+obj/%.o: ./master/%.c
+	#$(CC) $(CFLAGS) -O2 -mhost  -fPIC -c $^ -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -O2 -mhost -c $^ -o $@
+
+obj/%.o: ./slave/%.c
+	#$(CC) $(CFLAGS) -O2 -mslave -fPIC -faddress_align=256 -Dperf -c $^ -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -O2 -mslave -faddress_align=256 -Dperf -c $^ -o $@
+
+.PHONY: clean
+clean:
+	rm -rf $(EXE) *.o obj/*.o
+
+
