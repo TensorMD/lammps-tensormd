@@ -29,6 +29,7 @@ cmake ../cmake \
 make -j8
 ```
 
+- `-DBUILD_CUDA=yes; -DBUILD_HIP=no` for CUDA implementation, `-DBUILD_CUDA=no; -DBUILD_HIP=yes` for HIP implementation.
 - `-DLINK_SHARED={yes, no}`: `yes` for dynamic linking, `no` for static linking.
 - If `-DBUILD_CUDA=yes`, for NVIDIA GPUs supporting FP64 TensorCore (Ampere architecture or later) can set `ENABLE_CUDA_WMMA=yes` for better performance.
 - `-DBUILD_BASELINE={yes, no}` to enable baseline implementation.
@@ -75,6 +76,7 @@ cmake ../cmake \
 make -j8
 ```
 
+- `-DBUILD_CUDA=yes; -DBUILD_HIP=no` for CUDA implementation, `-DBUILD_CUDA=no; -DBUILD_HIP=yes` for HIP implementation.
 - `-DLINK_SHARED={yes, no}`: `yes` for dynamic linking, `no` for static linking.
 - `-DBUILD_BASELINE={yes, no}` to enable baseline implementation.
 - For large scaling test, set `-DLAMMPS_SIZES=bigbig`.

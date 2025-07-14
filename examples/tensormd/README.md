@@ -56,37 +56,40 @@ Other   |            | 0.01063    |            |       |  0.35
 
 - For more detail information, please refer to [Screen and logfile output](https://docs.lammps.org/Run_output.html).
 
+## Install DP and TensorMD
+
+1. For installing DP(v3.0.0) with LAMMPS, please refer to [DeePMD-kit’s documentation](https://docs.deepmodeling.com/projects/deepmd/en/master/index.html). Set global variable `DP_PATH` to the location of executable `lmp`, i.e. `export DP_PATH=/path/to/lmp`.
+
+2. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the baseline implementation of TensorMD. Set global variable `TENSORMD_BASELINE_PATH` to the location of executable `lmp`, i.e. `export TENSORMD_BASELINE_PATH=/path/to/lmp`.
+
+3. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the optimized implementation of TensorMD (recommand to set `-DENABLE_CUDA_WMMA=yes` for cuda). Set global variable `TENSORMD_PATH` to the location of executable `lmp`, i.e. `export TENSORMD_PATH=/path/to/lmp`.
+
+
 ## Figure 8
 This figure shows the execution times (excluding LAMMPS) of TensorMD and DP for batching different numbers of W atoms on A100 and ORISE.
 
-1. Run DP 
-    1. For installing DP(v3.0.0) with LAMMPS, please refer to [DeePMD-kit’s documentation](https://docs.deepmodeling.com/projects/deepmd/en/master/index.html).
-    2. Edit the last parameter in section `region` in file `lammps\examples\tensormd\W\dp\compare\in.lammps` to change number of atoms (`20` - 23040 atoms, `40` - 46080 atoms, `60` - 69120 atoms, `80` - 92160 atoms, `100` - 115200 atoms), i.e. `region  box block 0 24 0 24 0 20`.
-    3. Run the test.
-    4. The original data of A100 and ORISE are in `lammps\examples\tensormd\W\dp\compare\a100_log` and `lammps\examples\tensormd\W\dp\compare\orise_log` respectively.
+1. Run the test.
+```bash
+cd lammps\examples\tensormd
+bash run_compare.sh 
+```
 
-2. Run TensorMD
-    1. Edit the last parameter in section `region` in file `lammps\examples\tensormd\W\tensormd\compare\in.lammps` to change number of atoms (`20` - 23040 atoms, `40` - 46080 atoms, `60` - 69120 atoms, `80` - 92160 atoms, `100` - 115200 atoms), i.e. `region  box block 0 24 0 24 0 20`.
-    2. Run the test.
-    3. The original data of A100 and ORISE are in `lammps\examples\tensormd\W\tensormd\compare\a100_log` and `lammps\examples\tensormd\W\tensormd\compare\orise_log` respectively.
+2. The result CSV file is `./compare.csv`.
+
+3. The original data of A100 and ORISE are in `lammps\examples\tensormd\W\dp\compare\a100_log`, `lammps\examples\tensormd\W\dp\compare\orise_log`, `lammps\examples\tensormd\W\tensormd\compare\a100_log` and `lammps\examples\tensormd\W\tensormd\compare\orise_log`.
 
 ## Figure 9
 This figure shows the cumulative speedups of TensorMD over its baseline. The speedups are calculated using the end-to-end MD simulation time (including LAMMPS).
 
-1. Run `baseline`
-    1. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the baseline implementation of TensorMD.
-    2. Add parameter `cmax default` to the last of section `pair_coeff` in file `lammps\examples\tensormd\W\tensormd\speedup\in.lammps` (W), `lammps\examples\tensormd\binary\medium\in.lammps` (MoNi) and `lammps\examples\tensormd\trinary\in.lammps` (AlMgSi), i.e. ```pair_coeff	  * * ../W_k32_snapshot.npz W interp 0.001 cmax default```.
-    3. Run the tests for W, MoNi and AlMgSi with TensorMD baseline implementation.
-    4. The original data of A100 and ORISE are in `a100_log/log_baseline.lammps` and `orise_log/log_baseline.lammps` respectively in directory `lammps\examples\tensormd\W\tensormd\speedup` (W), `lammps\examples\tensormd\binary\medium` (MoNi) and `lammps\examples\tensormd\trinary` (AlMgSi).
-2. Run `+ Flexible neighbor-list padding`
-    1. Remove parameter `cmax default`.
-    2. Run the tests for W, MoNi and AlMgSi with TensorMD baseline implementation.
-    3. The original data of A100 and ORISE are in `a100_log/log_baseline_cmax.lammps` and `orise_log/log_baseline_cmax.lammps` respectively in directory `lammps\examples\tensormd\W\tensormd\speedup` (W), `lammps\examples\tensormd\binary\medium` (MoNi) and `lammps\examples\tensormd\trinary` (AlMgSi).
-3. Run `+ GEMM efficiency enhancement` and `+ Forward-backward strength reduction`
-    1. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the optimized implementation of TensorMD (recommand to set `-DENABLE_CUDA_WMMA=yes` for cuda). 
-    2. Run the tests for W, MoNi and AlMgSi with TensorMD optimized implementation.
-    3. The original data of A100 and ORISE are in `a100_log/log_release.lammps` and `orise_log/log_release.lammps` respectively in directory `lammps\examples\tensormd\W\tensormd\speedup` (W), `lammps\examples\tensormd\binary\medium` (MoNi) and `lammps\examples\tensormd\trinary` (AlMgSi).
-    4. The decrease of end-to-end MD simulation time in kernel `fnn->interp` is attributed to `Forward-backward strength reduction`. The decrease of end-to-end MD simulation time in other kernels is attributed to `GEMM efficiency enhancement`.
+1. Run the test.
+```bash
+cd lammps\examples\tensormd
+bash run_compare.sh 
+```
+
+2. The result CSV file is `./speedup.csv`.
+
+3. The original data of A100 and ORISE are in `a100_log/log_baseline.lammps` and `orise_log/log_baseline.lammps` respectively in directory `lammps\examples\tensormd\W\tensormd\speedup` (W), `lammps\examples\tensormd\binary\medium` (MoNi) and `lammps\examples\tensormd\trinary` (AlMgSi).
 
 ## Figure 11, 13
-These figures show the scaling result of TensorMD on ORISE. We release the test inputs, script and original data in directory `lammps\examples\tensormd\scaling`, but accessing to ORISE is not permitted.
+These figures show the scaling result of TensorMD on ORISE. The test inputs, script and original data are in directory `lammps\examples\tensormd\scaling`.
