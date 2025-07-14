@@ -19,6 +19,7 @@ cmake ../cmake \
     -D CMAKE_FIND_ROOT_PATH=/usr/sw/swgcc/swgcc710-tools-SEA-1079/usr
 ```
 
+- `-DBUILD_SW=yes` for Sunway implementation.
 - set `CPLUS_INCLUDE_PATH` to the path of include directory of CBLAS.
 - `-DUSE_SW_NNP={yes,no}` enable optimized NN kernel with better performance, but need to set NN config manually (you can choose predefined config set in `src/ML-TENSORMD/tensormd.h`).
 - `-DBUILD_BASELINE={yes, no}` to enable baseline implementation.

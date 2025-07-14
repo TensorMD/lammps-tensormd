@@ -56,23 +56,14 @@ Other   |            | 0.01063    |            |       |  0.35
 
 - For more detail information, please refer to [Screen and logfile output](https://docs.lammps.org/Run_output.html).
 
-## Figure 9
-This figure shows the cumulative speedups of TensorMD over its baseline. The speedups are calculated using the end-to-end MD simulation time (including LAMMPS).
+## Install DP and TensorMD
 
-1. Run `baseline`
-    1. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the baseline implementation of TensorMD.
-    2. Add parameter `cmax default` to the last of section `pair_coeff` in file `lammps\examples\tensormd\W\speedup\in.lammps` (W), `lammps\examples\tensormd\binary\medium\in.lammps` (MoNi) and `lammps\examples\tensormd\trinary\in.lammps` (AlMgSi), i.e. ```pair_coeff	  * * ../W_k32_snapshot.npz W interp 0.001 cmax default```.
-    3. Run the tests for W, MoNi and AlMgSi with TensorMD baseline implementation.
-    4. The original data of A100 and ORISE are in `a100_log/log_baseline.lammps` and `orise_log/log_baseline.lammps` respectively in directory `lammps\examples\tensormd\W\speedup` (W), `lammps\examples\tensormd\binary\medium` (MoNi) and `lammps\examples\tensormd\trinary` (AlMgSi).
-2. Run `+ Flexible neighbor-list padding`
-    1. Remove parameter `cmax default`.
-    2. Run the tests for W, MoNi and AlMgSi with TensorMD baseline implementation.
-    3. The original data of A100 and ORISE are in `a100_log/log_baseline_cmax.lammps` and `orise_log/log_baseline_cmax.lammps` respectively in directory `lammps\examples\tensormd\W\speedup` (W), `lammps\examples\tensormd\binary\medium` (MoNi) and `lammps\examples\tensormd\trinary` (AlMgSi).
-3. Run `+ GEMM efficiency enhancement` and `+ Forward-backward strength reduction`
-    1. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the optimized implementation of TensorMD (recommand to set `-DENABLE_CUDA_WMMA=yes` for cuda). 
-    2. Run the tests for W, MoNi and AlMgSi with TensorMD optimized implementation.
-    3. The original data of A100 and ORISE are in `a100_log/log_release.lammps` and `orise_log/log_release.lammps` respectively in directory `lammps\examples\tensormd\W\speedup` (W), `lammps\examples\tensormd\binary\medium` (MoNi) and `lammps\examples\tensormd\trinary` (AlMgSi).
-    4. The decrease of end-to-end MD simulation time in kernel `fnn->interp` is attributed to `Forward-backward strength reduction`. The decrease of end-to-end MD simulation time in other kernels is attributed to `GEMM efficiency enhancement`.
+1. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the baseline implementation of TensorMD. Set global variable `TENSORMD_BASELINE_PATH` to the location of executable `lmp`, i.e. `export TENSORMD_BASELINE_PATH=/path/to/lmp`.
+
+2. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the optimized implementation of TensorMD. Set global variable `TENSORMD_PATH` to the location of executable `lmp`, i.e. `export TENSORMD_PATH=/path/to/lmp`.
+
+## Figure 9
+This figure shows the cumulative speedups of TensorMD over its baseline. The speedups are calculated using the end-to-end MD simulation time (including LAMMPS). The test inputs, script and original data are in directory `lammps\examples\tensormd\W`, `lammps\examples\tensormd\binary` and `lammps\examples\tensormd\trinary`.
 
 ## Figure 10, 12
-These figures show the scaling result of TensorMD on Sunway. We release the test inputs, script and original data in directory `lammps\examples\tensormd\scaling`, but accessing to Sunway is not permitted.
+These figures show the scaling result of TensorMD on Sunway. The test inputs, script and original data are in directory `lammps\examples\tensormd\scaling`.
