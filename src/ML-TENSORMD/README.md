@@ -1,10 +1,8 @@
-# PC/CUDA
-
 ## Requirements
 - G++ / ICPX
 - MPI
 - CMake
-- CUDA Toolkit
+- CUDA Toolkit / ROCm
 
 ## Compile command example
 
@@ -30,10 +28,11 @@ make -j8
 ```
 
 - `-DBUILD_CUDA=yes; -DBUILD_HIP=no` for CUDA implementation, `-DBUILD_CUDA=no; -DBUILD_HIP=yes` for HIP implementation.
-- `-DLINK_SHARED={yes, no}`: `yes` for dynamic linking, `no` for static linking.
-- If `-DBUILD_CUDA=yes`, for NVIDIA GPUs supporting FP64 TensorCore (Ampere architecture or later) can set `ENABLE_CUDA_WMMA=yes` for better performance.
-- `-DBUILD_BASELINE={yes, no}` to enable baseline implementation.
+- `-DLINK_SHARED={yes, no}`: `yes` for dynamic linking, `no` for static linking, will not affect performance.
+- If `-DBUILD_CUDA=yes`, for NVIDIA GPUs supporting FP64 TensorCore (Ampere architecture or later), set `ENABLE_CUDA_WMMA=yes` for better performance.
+- `-DBUILD_BASELINE={yes, no}` to enable baseline implementation, other performance options will not afect baseline implementation.
 - For large scaling test, set `-DLAMMPS_SIZES=bigbig`.
+- It is recommended to keep the other option settings in the example unchanged.
 
 ## Run command example
 ```bash
@@ -46,7 +45,7 @@ nsys profile --stats=true mpirun -np 1 /home/oyyc/lammps/build/lmp -in in.lammps
 ncu --target-processes all -o nculog mpirun -np 1 /home/oyyc/lammps/build/lmp -in in.lammps -log log.lammps
 ```
 
-# ORISE/HIP
+# ORISE
 
 ## Compile command example
 

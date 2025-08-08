@@ -60,36 +60,41 @@ Other   |            | 0.01063    |            |       |  0.35
 
 1. For installing DP(v3.0.0) with LAMMPS, please refer to [DeePMD-kit’s documentation](https://docs.deepmodeling.com/projects/deepmd/en/master/index.html). Set global variable `DP_PATH` to the location of executable `lmp`, i.e. `export DP_PATH=/path/to/lmp`.
 
-2. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the baseline implementation of TensorMD. Set global variable `TENSORMD_BASELINE_PATH` to the location of executable `lmp`, i.e. `export TENSORMD_BASELINE_PATH=/path/to/lmp`.
+2. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the optimized implementation of TensorMD (recommend to set `-DENABLE_CUDA_WMMA=yes` for cuda). Set global variable `TENSORMD_PATH` to the location of executable `lmp`, i.e. `export TENSORMD_PATH=/path/to/lmp`.
 
-3. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the optimized implementation of TensorMD (recommand to set `-DENABLE_CUDA_WMMA=yes` for cuda). Set global variable `TENSORMD_PATH` to the location of executable `lmp`, i.e. `export TENSORMD_PATH=/path/to/lmp`.
-
+3. Follow the instructions in `lammps\src\ML-TENSORMD\README.md` to compile the baseline implementation of TensorMD (use the same options as the optimized implementation, just set `-DBUILD_BASELINE=yes`). Set global variable `TENSORMD_BASELINE_PATH` to the location of executable `lmp`, i.e. `export TENSORMD_BASELINE_PATH=/path/to/lmp`.
 
 ## Figure 8
 This figure shows the execution times (excluding LAMMPS) of TensorMD and DP for batching different numbers of W atoms on A100 and ORISE.
-
-1. Run the test.
+1. Set OpenMP threads according to the CPU configuration
+```bash
+export OMP_NUM_THREADS=40
+```
+2. Run the test.
 ```bash
 cd lammps\examples\tensormd
 bash run_compare.sh 
 ```
 
-2. The result CSV file is `./compare.csv`.
+3. The result CSV file is `./compare.csv`, showing the excution times (excluding LAMMPS) of TensorMD and DP for batching different numbers of W atoms.
 
-3. The original data of A100 and ORISE are in `lammps\examples\tensormd\W\dp\compare\a100_log`, `lammps\examples\tensormd\W\dp\compare\orise_log`, `lammps\examples\tensormd\W\tensormd\compare\a100_log` and `lammps\examples\tensormd\W\tensormd\compare\orise_log`.
+4. The test inputs and original data of A100 and ORISE are in `lammps\examples\tensormd\W\dp\compare` and `lammps\examples\tensormd\W\tensormd\compare`.
 
 ## Figure 9
 This figure shows the cumulative speedups of TensorMD over its baseline. The speedups are calculated using the end-to-end MD simulation time (including LAMMPS).
-
-1. Run the test.
+1. Set OpenMP threads according to the CPU configuration
+```bash
+export OMP_NUM_THREADS=40
+```
+2. Run the test.
 ```bash
 cd lammps\examples\tensormd
 bash run_compare.sh 
 ```
 
-2. The result CSV file is `./speedup.csv`.
+3. The result CSV file is `./speedup.csv`, showing the cumulative speedups of TensorMD over its baseline.
 
-3. The original data of A100 and ORISE are in `a100_log/log_baseline.lammps` and `orise_log/log_baseline.lammps` respectively in directory `lammps\examples\tensormd\W\tensormd\speedup` (W), `lammps\examples\tensormd\binary\medium` (MoNi) and `lammps\examples\tensormd\trinary` (AlMgSi).
+4. The test input and original data of A100 and ORISE are in directory `lammps\examples\tensormd\W\tensormd\speedup` (W), `lammps\examples\tensormd\binary\medium` (MoNi) and `lammps\examples\tensormd\trinary` (AlMgSi).
 
 ## Figure 11, 13
 These figures show the scaling result of TensorMD on ORISE. The test inputs, script and original data are in directory `lammps\examples\tensormd\scaling`.

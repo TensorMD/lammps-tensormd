@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export OMP_NUM_THREADS=40
-
 output_file="speedup.csv"
 
 echo " ,Flexible neighbor-list padding (Section 5.4),GEMM efficiency enhancement (Section 5.3),Forward-backward strength reduction (Section 5.1)" > "$output_file"

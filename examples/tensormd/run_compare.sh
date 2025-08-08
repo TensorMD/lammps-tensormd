@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export OMP_NUM_THREADS=40
-
 output_file="compare.csv"
 
 echo " ,20340 atoms,46080 atoms,69120 atoms,92160 atoms,115200 atoms" > "$output_file"
