@@ -1,0 +1,42 @@
+units metal
+boundary	p p p
+atom_style	atomic
+
+newton on
+
+read_data in.data
+
+pair_style	tensormd
+pair_coeff	* * ../../../potentials/tensormd/Be_tdnp_v3b52_fp64.npz Be etemp 2320.904412080202
+
+neighbor	2.0 bin
+neigh_modify	delay 0 every 1 check yes
+
+fix		1 all nve
+compute 1 all pe/atom
+compute 2 all reduce sum c_1
+
+thermo		1
+
+compute 3 all pressure thermo_temp virial
+
+variable vxx equal c_3[1]*vol/100000/atoms
+variable vyy equal c_3[2]*vol/100000/atoms
+variable vzz equal c_3[3]*vol/100000/atoms
+variable vxy equal c_3[4]*vol/100000/atoms
+variable vxz equal c_3[5]*vol/100000/atoms
+variable vyz equal c_3[6]*vol/100000/atoms
+
+compute 4 all tensormd/tdpe
+
+thermo_style custom pe pxx pyy pzz pxy pxz pyz v_vxx v_vyy v_vzz v_vxy v_vxz v_vyz c_2 c_4[*]
+thermo_modify line multi format float "% 23.16e"
+timestep	0.0001
+
+dump 1 all custom 1 out.data id fx fy fz
+dump_modify 1 sort id format float "% 23.16e"
+
+run		4
+
+write_data final.data
+

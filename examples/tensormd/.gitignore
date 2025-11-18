@@ -1,0 +1,8 @@
+# Ignored files
+out.data
+G.data
+md.traj
+md.log
+log.lammps
+final.data
+*.yaml
