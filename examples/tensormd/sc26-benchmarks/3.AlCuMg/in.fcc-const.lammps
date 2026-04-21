@@ -1,0 +1,74 @@
+units           metal
+boundary        p p p
+atom_style      atomic
+newton          on
+
+# 1. Define the size of the full 32-atom repeating block
+variable a equal 8.0999999999999996
+
+# 2. Define the 32-atom custom lattice
+lattice custom $a &
+    a1 1.0 0.0 0.0 &
+    a2 0.0 1.0 0.0 &
+    a3 0.0 0.0 1.0 &
+    basis 0.00 0.00 0.00 &
+    basis 0.00 0.25 0.25 &
+    basis 0.25 0.00 0.25 &
+    basis 0.25 0.25 0.00 &
+    basis 0.00 0.00 0.50 &
+    basis 0.00 0.25 0.75 &
+    basis 0.25 0.00 0.75 &
+    basis 0.25 0.25 0.50 &
+    basis 0.00 0.50 0.00 &
+    basis 0.00 0.75 0.25 &
+    basis 0.25 0.50 0.25 &
+    basis 0.25 0.75 0.00 &
+    basis 0.00 0.50 0.50 &
+    basis 0.00 0.75 0.75 &
+    basis 0.25 0.50 0.75 &
+    basis 0.25 0.75 0.50 &
+    basis 0.50 0.00 0.00 &
+    basis 0.50 0.25 0.25 &
+    basis 0.75 0.00 0.25 &
+    basis 0.75 0.25 0.00 &
+    basis 0.50 0.00 0.50 &
+    basis 0.50 0.25 0.75 &
+    basis 0.75 0.00 0.75 &
+    basis 0.75 0.25 0.50 &
+    basis 0.50 0.50 0.00 &
+    basis 0.50 0.75 0.25 &
+    basis 0.75 0.50 0.25 &
+    basis 0.75 0.75 0.00 &
+    basis 0.50 0.50 0.50 &
+    basis 0.50 0.75 0.75 &
+    basis 0.75 0.50 0.75 &
+    basis 0.75 0.75 0.50
+
+# 3. Create the simulation box
+# Change these block limits to scale up the system.
+# e.g., 'block 0 1 0 1 0 1' yields exactly your 32 atoms.
+# e.g., 'block 0 5 0 5 0 5' creates a 5x5x5 replica (4,000 atoms).
+region          simbox block 0 1 0 1 0 1
+create_box      3 simbox
+
+# 4. Fill the lattice and explicitly map atoms to the 3 types
+create_atoms 1 box &
+    basis 1 1  basis 2 1  basis 3 1  basis 4 1  &
+    basis 5 1  basis 6 1  basis 7 1  basis 8 1  &
+    basis 9 1  basis 10 1 basis 11 1 basis 12 1 &
+    basis 13 1 basis 14 1 basis 15 1 basis 16 1 &
+    basis 17 2 basis 18 2 basis 19 2 basis 20 2 &
+    basis 21 2 basis 22 2 basis 23 2 basis 24 2 &
+    basis 25 3 basis 26 3 basis 27 3 basis 28 3 &
+    basis 29 3 basis 30 3 basis 31 3 basis 32 3
+
+pair_style      tensormd
+pair_coeff      * * ${model} Al Cu Mg
+neighbor        2.0 bin
+neigh_modify	delay 0 every 5 check yes
+fix             1 all nvt temp 300.0 300.0 0.1
+velocity        all create 300.0 12345 dist gaussian
+thermo_style    custom step cpu etotal vol pxx pyy pzz
+thermo          10
+timestep        0.001
+run             100

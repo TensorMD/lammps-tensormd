@@ -1,0 +1,56 @@
+/* ----------------------------------------------------------------------
+  MIT License
+  Copyright (c) 2026
+  [Chen Xin (chen_xin@iapcm.ac.cn), Ouyang Yucheng (ouyangyucheng@live.com)]
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+  ----------------------------------------------------------------------- */
+
+#ifndef TENSORMD_KERNELS_ARCH_INTERNAL_SPLINE_H
+#define TENSORMD_KERNELS_ARCH_INTERNAL_SPLINE_H
+
+#include "kernels_internal_types.h"
+
+namespace TENSORMD::Kernels::Spline {
+
+namespace CPU {
+
+template <typename Scalar>
+void cubic_setup(int n, int n_out, Scalar delta, const Scalar* f_vals,
+                 Scalar* params);
+
+template <typename Scalar>
+void cubic_interpolate(DeviceArgs<Scalar>& args);
+
+}  // namespace CPU
+
+namespace GPU {
+#ifdef TENSORMD_GPU
+
+template <typename Scalar>
+void cubic_setup(int n, int n_out, Scalar delta, const Scalar* f_vals,
+                 Scalar* params);
+
+template <typename Scalar>
+void cubic_interpolate(DeviceArgs<Scalar>& args);
+
+#endif
+}  // namespace GPU
+}  // namespace TENSORMD::Kernels::Spline
+
+#endif  // TENSORMD_KERNELS_ARCH_INTERNAL_SPLINE_H

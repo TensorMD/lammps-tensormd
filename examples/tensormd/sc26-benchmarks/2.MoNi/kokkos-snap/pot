@@ -1,0 +1,2 @@
+pair_style snap/kk
+pair_coeff * * ../models/Ni_Mo.snapcoeff ../models/Ni_Mo.snapparam Mo Ni

@@ -1,0 +1,20 @@
+# 1. Define variables for the lattice parameters
+variable a equal 5.7997313345996311
+variable c equal 3.1122846351559841
+variable c_over_a equal $c/$a
+
+# 2. Define the custom tetragonal lattice
+lattice custom $a &
+    a1 1.0 0.0 0.0 &
+    a2 0.0 1.0 0.0 &
+    a3 0.0 0.0 ${c_over_a} &
+    basis 0.0 0.0 0.0 &
+    basis 0.5 0.0 0.25 &
+    basis 0.5 0.5 0.5 &
+    basis 0.0 0.5 0.75
+
+# 3. Create the simulation box and atoms 
+# (e.g., this makes a 4x4x4 supercell, change as needed)
+region          simbox block 0 ${nx} 0 ${ny} 0 ${nz}
+create_box      1 simbox
+create_atoms    1 box

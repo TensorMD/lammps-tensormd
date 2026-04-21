@@ -1,0 +1,19 @@
+
+units           metal
+boundary        p p p
+atom_style      atomic
+newton          on
+
+read_data       ../structures/in.AlCuMg.data
+replicate       ${nx} ${nx} ${nx}
+
+pair_style      tensormd
+pair_coeff      * * ${model} Al Cu Mg interp 0.01
+neighbor        2.0 bin
+neigh_modify	delay 0 every 5 check yes
+fix             1 all nvt temp 300.0 300.0 0.1
+velocity        all create 500.0 12345 dist gaussian
+thermo_style    custom step cpu etotal vol pxx pyy pzz
+thermo          10
+timestep        0.001
+run             100

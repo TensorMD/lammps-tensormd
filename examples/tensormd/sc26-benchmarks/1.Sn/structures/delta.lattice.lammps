@@ -1,0 +1,5 @@
+
+lattice bcc ${alat}
+region box block 0 ${nx} 0 ${nx} 0 ${nx}
+create_box 1 box
+create_atoms 1 box

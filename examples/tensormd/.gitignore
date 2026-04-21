@@ -1,0 +1,20 @@
+# Ignored files
+out.data
+G.data
+md.traj
+md.log
+log.lammps
+final.data
+*.yaml
+results
+results.*
+dump_*.txt
+infnan_*.txt
+*_ref.txt
+diff_*.log
+sjob
+perf_logs/
+*.ncu-rep
+*_cpu_0.txt
+*_gpu_0.txt
+sc26-benchmarks/*/results/*

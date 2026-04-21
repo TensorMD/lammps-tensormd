@@ -1,0 +1,24 @@
+
+units           metal
+boundary        p p p
+atom_style      atomic
+newton          on
+
+lattice         fcc 4.05
+region          simbox block 0 ${nx} 0 ${ny} 0 ${nz}
+create_box      3 simbox
+create_atoms    1 box
+
+set type 1 type/fraction 2 0.2000 12342
+set type 1 type/fraction 3 0.2500 12343
+
+pair_style      tensormd
+pair_coeff      * * ${model} Al Cu Mg
+neighbor        2.0 bin
+neigh_modify	delay 0 every 5 check yes
+fix             1 all nvt temp 300.0 300.0 0.1
+velocity        all create 300.0 12345 dist gaussian
+thermo_style    custom step cpu etotal vol pxx pyy pzz
+thermo          10
+timestep        0.001
+run             100

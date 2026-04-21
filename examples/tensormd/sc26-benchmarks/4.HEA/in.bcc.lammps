@@ -1,0 +1,39 @@
+
+units           metal
+boundary        p p p
+atom_style      atomic
+newton          on
+
+# BCC High-Entropy Alloy (HEA) with 6 species
+# created by substituting a fraction of atoms in a pure BCC lattice.
+variable        alat equal 3.20
+lattice         bcc ${alat}
+region          simbox block 0 ${nx} 0 ${ny} 0 ${nz}
+create_box      6 simbox
+create_atoms    1 box
+
+# 1. Change 1/6th of all Type 1 atoms to Type 2
+set type 1 type/fraction 2 0.166667 12342
+
+# 2. Change 1/5th of the REMAINING Type 1 atoms to Type 3
+set type 1 type/fraction 3 0.200000 12343
+
+# 3. Change 1/4th of the REMAINING Type 1 atoms to Type 4
+set type 1 type/fraction 4 0.250000 12344
+
+# 4. Change 1/3rd of the REMAINING Type 1 atoms to Type 5
+set type 1 type/fraction 5 0.333333 12345
+
+# 5. Change 1/2 of the REMAINING Type 1 atoms to Type 6
+set type 1 type/fraction 6 0.500000 12346
+
+pair_style      tensormd
+pair_coeff      * * ${model} Ta Nb W Mo V Al
+neighbor        2.0 bin
+neigh_modify	delay 0 every 5 check yes
+fix             1 all nvt temp 300.0 300.0 0.1
+velocity        all create 300.0 12345 dist gaussian
+thermo_style    custom step cpu etotal vol pxx pyy pzz
+thermo          10
+timestep        0.001
+run             100

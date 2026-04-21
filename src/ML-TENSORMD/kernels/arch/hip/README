@@ -1,0 +1,241 @@
+# 编译命令示例
+module use /public/software/modules
+module load compiler/rocm/dtk/22.10.1
+module load compiler/cmake/3.24.1
+module load compiler/llvm-openmp/openmp
+
+export CC=mpicc
+export CXX=mpicxx
+
+cmake ../cmake \
+    -C ../cmake/presets/tensormd.cmake \
+    -D BLAS_INCLUDE_DIRS="/public/software/mathlib/openblas/0.3.7/include" \
+    -D CMAKE_BUILD_TYPE=Release \
+    -D BUILD_MPI=yes \
+    -D BUILD_OMP=yes \
+    -D BUILD_HIP=yes \
+    -D BUILD_CUDA=no \
+    -D USE_MKL_BATCH=yes \
+    -D LINK_SHARED=no
+
+CC={mpicc, mpiicx}
+CXX={mpicxx, mpiipcx}
+LINK_SHARED用于选择GPU部分与lammps动态链接或是静态链接
+BUILD_CUDA与BUILD_HIP用于选择不同的框架. 若使用Blas, 则需要设置BLAS_INCLUDE_DIRS; 若使用MKL, 可删除BLAS_INCLUDE_DIRS
+
+
+# 运行命令示例
+
+#!/bin/bash
+#SBATCH --partition=normal
+#SBATCH --time=02:00:00
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=4
+#SBATCH --ntasks-per-node=4
+#SBATCH --gres=dcu:4
+
+export OMP_NUM_THREADS=4
+mpirun /public/home/aicao/oyyc/lammps/build/lmp -in tdnp_in.lammps -log tdnp_log.lammps
+
+mpirun -np 1 /home/oyyc/lammps/build/lmp -pk omp $OMP_NUM_THREADS neigh yes -in in.lammps -log log.lammps
+
+# DCU运行结果 (k = 128, 1 node 1 DCU)
+LAMMPS (2 Aug 2023)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+Lattice spacing in x,y,z = 3.189 3.189 3.189
+Created orthogonal box = (0 0 0) to (76.536 76.536 153.072)
+  1 by 1 by 1 MPI processor grid
+Created 55296 atoms
+  using lattice units in orthogonal box = (0 0 0) to (76.536 76.536 153.072)
+  create_atoms CPU = 0.006 seconds
+1 DCU(s) per node, process0 running on DCU0
+HIP Warning: kernel (_Z16ones_like_deviceIdEvPT_i) launch (1024) threads out of range (256), add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! 
+Use interpolation: dr = 0.0100, algo = batch
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  binsize = 3.5, bins = 22 22 44
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+Per MPI rank memory allocation (min/avg/max) = 39.11 | 39.11 | 39.11 Mbytes
+   Step          CPU            Temp          KinEng         PotEng         TotEng         Press          Volume          Pxx            Pyy            Pzz      
+         0   0              300            2144.2319     -706772.34     -704628.1       5105.6607      896658.93      5113.094       5093.2066      5110.6817    
+        10   2.2040219      275.64128      1970.1294     -706597.93     -704627.8       6050.7612      896658.93      6056.3963      6039.946       6055.9412    
+        20   4.4246955      211.96457      1515.004      -706139.36     -704624.36      8359.4873      896658.93      8359.9133      8353.0033      8365.5454    
+        30   6.6500382      132.92992      950.1086      -705566.95     -704616.84      11076.357      896658.93      11069.42       11075.644      11084.006    
+        40   8.8657388      66.827799      477.64766     -705088.99     -704611.34      13176.678      896658.93      13162.344      13181.053      13186.639    
+        50   11.088252      36.131408      258.24706     -704865.88     -704607.63      14020.022      896658.93      14000.649      14027.378      14032.04     
+        60   13.305817      47.657555      340.6295      -704944.78     -704604.15      13486.438      896658.93      13465.856      13494.295      13499.164    
+        70   15.521437      91.246793      652.18095     -705249.89     -704597.71      11953.622      896658.93      11935.681      11960.16       11965.026    
+        80   17.746578      145.93441      1043.0574     -705629.58     -704586.52      10103.014      896658.93      10089.976      10107.917      10111.15     
+        90   19.961516      190.35438      1360.5464     -705931.96     -704571.41      8660.452       896658.93      8653.5324      8664.4631      8663.3603    
+       100   22.177626      211.67648      1512.9449     -706067.5      -704554.56      8111.7651      896658.93      8110.4482      8116.41        8108.4371    
+Loop time of 22.1778 on 1 procs for 100 steps with 55296 atoms
+
+Performance: 0.390 ns/day, 61.605 hours/ns, 4.509 timesteps/s, 249.330 katom-step/s
+18.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 21.973     | 21.973     | 21.973     |   0.0 | 99.08
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.032734   | 0.032734   | 0.032734   |   0.0 |  0.15
+Output  | 0.0080179  | 0.0080179  | 0.0080179  |   0.0 |  0.04
+Modify  | 0.13452    | 0.13452    | 0.13452    |   0.0 |  0.61
+Other   |            | 0.02976    |            |       |  0.13
+
+Nlocal:          55296 ave       55296 max       55296 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:          30045 ave       30045 max       30045 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:  4.86605e+06 ave 4.86605e+06 max 4.86605e+06 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 4866048
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 TFlops,       0.0001 secs,       0.0000 TFLOP/s
+         setup:     0.0000 TFlops,       1.2270 secs,       0.0000 TFLOP/s
+   fnn->interp:     1.1834 TFlops,       1.8089 secs,       0.6542 TFLOP/s
+       Kernel1:     2.6478 TFlops,       4.1627 secs,       0.6361 TFLOP/s
+   nn->compute:     2.5523 TFlops,       1.0744 secs,       2.3756 TFLOP/s
+          dEdP:     0.1571 TFlops,       0.6642 secs,       0.2366 TFLOP/s
+             U:     2.4914 TFlops,       9.3308 secs,       0.2670 TFLOP/s
+             V:     2.4914 TFlops,       1.5466 secs,       1.6109 TFLOP/s
+            F1:     0.1260 TFlops,       1.4881 secs,       0.0847 TFLOP/s
+            F2:     0.1620 TFlops,       0.1883 secs,       0.8604 TFLOP/s
+        forces:     0.0058 TFlops,       0.4517 secs,       0.0129 TFLOP/s
+--------------------------------------------------------------------------
+       Overall:    11.8174 TFlops,      21.9427 secs,       0.5386 TFLOP/s
+--------------------------------------------------------------------------
+
+Total wall time: 0:00:29
+
+# DCU运行结果 (k = 128, 2 node 8 DCU)
+
+LAMMPS (2 Aug 2023)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+Lattice spacing in x,y,z = 3.189 3.189 3.189
+Created orthogonal box = (0 0 0) to (76.536 76.536 1224.576)
+  1 by 1 by 8 MPI processor grid
+Created 442368 atoms
+  using lattice units in orthogonal box = (0 0 0) to (76.536 76.536 1224.576)
+  create_atoms CPU = 0.022 seconds
+4 DCU(s) per node, process3 running on DCU3
+4 DCU(s) per node, process2 running on DCU2
+4 DCU(s) per node, process1 running on DCU1
+4 DCU(s) per node, process0 running on DCU0
+4 DCU(s) per node, process7 running on DCU3
+4 DCU(s) per node, process5 running on DCU1
+4 DCU(s) per node, process4 running on DCU0
+4 DCU(s) per node, process6 running on DCU2
+HIP Warning: kernel (_Z16ones_like_deviceIdEvPT_i) launch (1024) threads out of range (256), add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! 
+HIP Warning: kernel (_Z16ones_like_deviceIdEvPT_i) launch (1024) threads out of range (256), add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! 
+HIP Warning: kernel (_Z16ones_like_deviceIdEvPT_i) launch (1024) threads out of range (256), add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! 
+Use interpolation: dr = 0.0100, algo = batch
+HIP Warning: kernel (_Z16ones_like_deviceIdEvPT_i) launch (1024) threads out of range (256), add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! 
+HIP Warning: kernel (_Z16ones_like_deviceIdEvPT_i) launch (1024) threads out of range (256), add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! 
+HIP Warning: kernel (_Z16ones_like_deviceIdEvPT_i) launch (1024) threads out of range (256), add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! 
+HIP Warning: kernel (_Z16ones_like_deviceIdEvPT_i) launch (1024) threads out of range (256), add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! 
+HIP Warning: kernel (_Z16ones_like_deviceIdEvPT_i) launch (1024) threads out of range (256), add __launch_bounds__ to kernel define or use --gpu-max-threads-per-block recompile program ! 
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 7
+  ghost atom cutoff = 7
+  binsize = 3.5, bins = 22 22 350
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair tensormd, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+Per MPI rank memory allocation (min/avg/max) = 39.11 | 39.11 | 39.11 Mbytes
+   Step          CPU            Temp          KinEng         PotEng         TotEng         Press          Volume          Pxx            Pyy            Pzz      
+         0   0              300            17154.127     -5654178.7     -5637024.6      5105.7012      7173271.4      5107.8031      5108.7796      5100.5207    
+         1   0.49026265     299.75351      17140.032     -5654164.7     -5637024.7      5117.0901      7173271.4      5119.1897      5120.1541      5111.9264    
+         2   0.97581087     299.00487      17097.225     -5654121.9     -5637024.7      5168.7723      7173271.4      5170.8609      5171.8474      5163.6086    
+         3   1.4333709      297.74888      17025.407     -5654050.1     -5637024.7      5222.8063      7173271.4      5224.8774      5225.8975      5217.6439    
+         4   1.8918788      295.99437      16925.083     -5653949.7     -5637024.6      5289.7619      7173271.4      5291.8382      5292.8473      5284.6002    
+         5   2.3689318      293.75048      16796.777     -5653821.2     -5637024.5      5374.494       7173271.4      5376.5633      5377.5992      5369.3195    
+         6   2.8155007      291.02654      16641.021     -5653665.3     -5637024.3      5477.177       7173271.4      5479.2418      5480.2863      5472.003     
+         7   3.3034224      287.83359      16458.446     -5653482.4     -5637024        5597.1377      7173271.4      5599.2037      5600.1945      5592.0148    
+         8   3.7249892      284.18453      16249.791     -5653273.3     -5637023.5      5733.8409      7173271.4      5735.8803      5736.9061      5728.7362    
+         9   4.1931662      280.0941       16015.899     -5653038.8     -5637022.9      5886.5318      7173271.4      5888.5422      5889.5962      5881.4569    
+        10   4.657136       275.57874      15757.709     -5652779.8     -5637022.1      6054.6063      7173271.4      6056.5849      6057.6652      6049.5688    
+Loop time of 4.67333 on 8 procs for 10 steps with 442368 atoms
+
+Performance: 0.185 ns/day, 129.815 hours/ns, 2.140 timesteps/s, 946.579 katom-step/s
+41.7% CPU use with 8 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 2.4192     | 2.4665     | 2.5153     |   1.9 | 52.78
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.42807    | 0.49518    | 0.53646    |   4.7 | 10.60
+Output  | 1.1419     | 1.1799     | 1.2672     |   3.5 | 25.25
+Modify  | 0.27133    | 0.30409    | 0.32467    |   3.6 |  6.51
+Other   |            | 0.2276     |            |       |  4.87
+
+Nlocal:          55296 ave       55296 max       55296 min
+Histogram: 8 0 0 0 0 0 0 0 0 0
+Nghost:          30045 ave       30045 max       30045 min
+Histogram: 8 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 8 0 0 0 0 0 0 0 0 0
+FullNghs:  4.86605e+06 ave 4.86605e+06 max 4.86605e+06 min
+Histogram: 8 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 38928384
+Ave neighs/atom = 88
+Neighbor list builds = 0
+Dangerous builds = 0
+
+--------------------------------------------------------------------------
+
+                               FLOPs Report
+
+--------------------------------------------------------------------------
+         alloc:     0.0000 TFlops,       0.0000 secs,       0.0000 TFLOP/s
+         setup:     0.0000 TFlops,       0.3148 secs,       0.0000 TFLOP/s
+   fnn->interp:     0.1183 TFlops,       0.1712 secs,       0.6914 TFLOP/s
+       Kernel1:     0.2648 TFlops,       0.4205 secs,       0.6297 TFLOP/s
+   nn->compute:     0.2552 TFlops,       0.1233 secs,       2.0704 TFLOP/s
+          dEdP:     0.0157 TFlops,       0.1132 secs,       0.1388 TFLOP/s
+             U:     0.2491 TFlops,       0.9348 secs,       0.2665 TFLOP/s
+             V:     0.2491 TFlops,       0.1553 secs,       1.6043 TFLOP/s
+            F1:     0.0126 TFlops,       0.1509 secs,       0.0835 TFLOP/s
+            F2:     0.0162 TFlops,       0.0264 secs,       0.6147 TFLOP/s
+        forces:     0.0006 TFlops,       0.0484 secs,       0.0121 TFLOP/s
+--------------------------------------------------------------------------
+       Overall:     1.1817 TFlops,       2.4587 secs,       0.4806 TFLOP/s
+--------------------------------------------------------------------------
+
+Total wall time: 0:00:16
